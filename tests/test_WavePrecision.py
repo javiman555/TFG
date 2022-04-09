@@ -99,7 +99,7 @@ class TestWavePrecision(utest.TestCase):
             aproxWaveList.append(aproxWave)
             
         precision = wavePrecision.compareData(aproxWaveList)
-        self.assertAlmostEqual(precision, 48.81, 2)
+        self.assertAlmostEqual(precision, 48.82, 2)
 
 if __name__ == '__main__':
     utest.main()
