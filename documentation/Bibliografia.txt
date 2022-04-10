@@ -34,3 +34,4 @@ https://realpython.com/python-testing/
 https://es.overleaf.com/learn/latex/Algorithms
 https://python-course.eu/oop/magic-methods.php
 https://www.codementor.io/@arpitbhayani/overload-functions-in-python-13e32ahzqt
+https://tkdocs.com/tutorial/index.html
