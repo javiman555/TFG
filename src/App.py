@@ -1,48 +1,53 @@
 from tkinter import *
-from tkinter import ttk
+from tkinter import messagebox
 
 
-def calculate(*args):
-    try:
-        value = float(feet.get())
-        meters.set(int(0.3048 * value * 10000.0 + 0.5)/10000.0)
-    except ValueError:
+def start():
+    response = messagebox.askokcancel("Aproximated wait time","It seems the proccess could take up to infinity seconds. Continue?")
+    if response == 1:
+        #We call the proccess
         pass
-
+    
 root = Tk()
 root.title("App")
 root.resizable(False,False)
 root.iconbitmap('../resources/App.ico')
-root.config(bg = "black")
 
-style = ttk.Style()
-style.configure("Dark.TLabel", foreground="white", background="black")
+inputframe = LabelFrame(root,text="Input")
+inputframe.grid(column=0, row=0,rowspan=10, sticky=(N, W, E, S))
 
+graphframe = LabelFrame(root,text="Graph")
+graphframe.grid(column=1,row=0,columnspan=6,rowspan=4, sticky=(N, W, E, S))
 
+resultframe = LabelFrame(root,text="Results")
+resultframe.grid(column=1, row=5,columnspan=6,rowspan=4, sticky=(N, W, E, S))
 
+tickerTitle = Label(inputframe,text="Tickers")
+tickerTitle.grid(column=0,row=0)
 
-mainframe = ttk.Frame(root, padding="3 3 12 12",style="Dark.TLabel")
-mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
-root.columnconfigure(0, weight=1)
-root.rowconfigure(0, weight=1)
+tick = StringVar()
+tick.set("IBEX35")
 
-feet = StringVar()
-feet_entry = ttk.Entry(mainframe, width=7, textvariable=feet)
-feet_entry.grid(column=2, row=1, sticky=(W, E))
+ticker = OptionMenu(inputframe, tick, "IBEX35")
+ticker.grid(column=0,row=1)
 
-meters = StringVar()
-ttk.Label(mainframe, textvariable=meters).grid(column=2, row=2, sticky=(W, E))
+moneyTitle = Label(inputframe,text="Money")
+moneyTitle.grid(column=0,row=2)
+moneyEntry = Entry(inputframe)
+moneyEntry.grid(column=0,row=3)
+moneyEntry.insert(0,"1000")
 
-ttk.Button(mainframe, text="Calculate", command=calculate).grid(column=3, row=3, sticky=W)
+startButton = Button(root,text="Start",command=start)
+startButton.grid(column=0,row=5)
 
-ttk.Label(mainframe, text="feet").grid(column=3, row=1, sticky=W)
-ttk.Label(mainframe, text="is equivalent to").grid(column=1, row=2, sticky=E)
-ttk.Label(mainframe, text="meters").grid(column=3, row=2, sticky=W)
+graphTitle = Label(graphframe,text="Graph")
+graphTitle.grid(column=0,row=0)
+graphButton = Button(graphframe,text="Graph",padx=60,pady=40)
+graphButton.grid(column=0,row=1,columnspan=6,rowspan=4)
 
-for child in mainframe.winfo_children(): 
-    child.grid_configure(padx=5, pady=5)
-
-feet_entry.focus()
-root.bind("<Return>", calculate)
+resultTitle = Label(resultframe,text="Results")
+resultTitle.grid(column=0,row=0)
+resultButton = Button(resultframe,text="Results",padx=60,pady=40)
+resultButton.grid(column=0,row=1,columnspan=6,rowspan=4)
 
 root.mainloop()
