@@ -1,13 +1,57 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Apr 15 01:28:55 2022
+
+@author: Javier
+"""
+
 from tkinter import *
 from tkinter import messagebox
-
+from tkinterhtml import HtmlFrame
+import altair as alt
+import pandas as pd
+from pandas_datareader import data
+import urllib
 
 def start():
     response = messagebox.askokcancel("Aproximated wait time","It seems the proccess could take up to infinity seconds. Continue?")
     if response == 1:
         #We call the proccess
         pass
-    
+  
+alt.renderers.enable('altair_viewer')
+
+start = '2020-1-1'
+end = '2020-12-31'
+source = 'yahoo'
+
+apple = data.DataReader("AAPL", start=start ,end=end, data_source=source).reset_index()[["Date", "Close"]]
+ibm = data.DataReader("IBM", start=start ,end=end, data_source=source).reset_index()[["Date", "Close"]]
+microsoft = data.DataReader("MSFT", start=start ,end=end, data_source=source).reset_index()[["Date", "Close"]]
+
+apple["Stock"] = "apple"
+ibm["Stock"] = "ibm"
+microsoft["Stock"] = "msft"
+
+stocks = pd.concat([apple, ibm, microsoft])
+
+stocks["Month"] = stocks.Date.dt.month
+
+selection = alt.selection_multi(fields=["Stock"], bind="legend")
+chart = alt.Chart(stocks).mark_line().encode(
+   x="Date",
+   y="Close",
+   color="Stock",
+   opacity=alt.condition(selection, alt.value(1), alt.value(0.1))
+).properties(
+   height=300, width=500
+).add_selection(
+   selection
+)
+chart.save('filename.html')
+HtmlFile = open("filename.html", 'r', encoding='utf-8')
+source_code = HtmlFile.read() 
+  
 root = Tk()
 root.title("App")
 root.resizable(False,False)
@@ -42,8 +86,9 @@ startButton.grid(column=0,row=5)
 
 graphTitle = Label(graphframe,text="Graph")
 graphTitle.grid(column=0,row=0)
-graphButton = Button(graphframe,text="Graph",padx=60,pady=40)
-graphButton.grid(column=0,row=1,columnspan=6,rowspan=4)
+graphFrame = HtmlFrame(graphframe,horizontal_scrollbar="auto")
+graphFrame.grid(column=0,row=1,columnspan=6,rowspan=4)
+graphFrame.set_content("<html></html>")
 
 resultTitle = Label(resultframe,text="Results")
 resultTitle.grid(column=0,row=0)
