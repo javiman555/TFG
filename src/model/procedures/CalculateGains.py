@@ -1,7 +1,7 @@
-import src.objects.graph.ClosenessGraph as cg
-import src.objects.wave.ComplexWave as ComplexWave
-import src.modules.Wavelete as Wavelete
-import src.modules.Fourier as Fourier
+import src.model.objects.graph.ClosenessGraph as cg
+import src.model.objects.wave.ComplexWave as ComplexWave
+import src.model.modules.Wavelete as Wavelete
+import src.model.modules.Fourier as Fourier
 import networkx as nx
 import itertools
 import matplotlib.pyplot as plt

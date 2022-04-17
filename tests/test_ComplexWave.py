@@ -1,7 +1,7 @@
 import unittest as utest
 import numpy.testing as ntest
-from src.objects.wave import ComplexWaveDB
-from src.objects.wave import ComplexWaveRandom
+from src.model.objects.wave import ComplexWaveDB
+from src.model.objects.wave import ComplexWaveRandom
 import random as rd
 
 class TestComplexWave(utest.TestCase):

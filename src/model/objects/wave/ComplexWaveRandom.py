@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import random as rd
-from src.objects.wave import SimpleWave
-from src.objects.wave.ComplexWave import ComplexWave
+from src.model.objects.wave import SimpleWave
+from src.model.objects.wave.ComplexWave import ComplexWave
 import pandas as pd
 
 class ComplexWaveRandom(ComplexWave):

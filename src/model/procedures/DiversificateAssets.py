@@ -1,7 +1,7 @@
-import src.objects.graph.ClosenessGraph as cg
-import src.modules.Wavelete as Wavelete
-import src.modules.Fourier as Fourier
-import src.objects.k_means.K_MeansGraph as K_MeansGraph
+import src.model.objects.graph.ClosenessGraph as cg
+import src.model.modules.Wavelete as Wavelete
+import src.model.modules.Fourier as Fourier
+import src.model.objects.k_means.K_MeansGraph as K_MeansGraph
 
 import networkx as nx
 import itertools

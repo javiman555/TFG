@@ -1,16 +1,16 @@
 import unittest as utest
 import numpy.testing as ntest
-from src.objects.wave import ComplexWaveDB
+from src.model.objects.wave import ComplexWaveDB
 
-import src.modules.YahooFinanceAPI as yf
-import src.objects.Stock as sk
+import src.model.modules.YahooFinanceAPI as yf
+import src.model.objects.Stock as sk
 
-import src.objects.k_means.K_Means as K_Means
-import src.objects.graph.VisibilityGraph as vg
-import src.objects.graph.ClosenessGraph as cg
-import src.procedures.DiversificateAssets as DiversificateAssets
-import src.objects.k_means.K_MeansVariation as K_MeansVariation
-import src.procedures.CalculateGains as CalculateGains
+import src.model.objects.k_means.K_Means as K_Means
+import src.model.objects.graph.VisibilityGraph as vg
+import src.model.objects.graph.ClosenessGraph as cg
+import src.model.procedures.DiversificateAssets as DiversificateAssets
+import src.model.objects.k_means.K_MeansVariation as K_MeansVariation
+import src.model.procedures.CalculateGains as CalculateGains
 
 
 class TestCalculateGains(utest.TestCase):

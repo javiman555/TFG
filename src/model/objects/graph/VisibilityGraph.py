@@ -1,7 +1,7 @@
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
-import src.objects.graph.Graph as Graph
+import src.model.objects.graph.Graph as Graph
 
 
 class VisibilityGraph(Graph.Graph):

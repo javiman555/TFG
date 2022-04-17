@@ -1,11 +1,11 @@
 import unittest as utest
 import numpy.testing as ntest
-from src.objects.wave import ComplexWaveDB
+from src.model.objects.wave import ComplexWaveDB
 
-import src.modules.YahooFinanceAPI as yf
-import src.objects.Stock as sk
+import src.model.modules.YahooFinanceAPI as yf
+import src.model.objects.Stock as sk
 
-import src.objects.k_means.K_Means as K_Means
+import src.model.objects.k_means.K_Means as K_Means
 import matplotlib.pyplot as plt
 import numpy as np
 

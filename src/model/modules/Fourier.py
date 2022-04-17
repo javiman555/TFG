@@ -1,6 +1,6 @@
 import numpy as np
 import copy
-import src.objects.wave.ComplexWave as cw
+import src.model.objects.wave.ComplexWave as cw
 
 #This class is useless
 class Fourier:

@@ -1,9 +1,9 @@
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
-import src.objects.k_means.K_Means as K_Means
-import src.objects.graph.Graph as Graph
-import src.objects.k_means.K_MeansVariation as K_MeansVariation
+import src.model.objects.k_means.K_Means as K_Means
+import src.model.objects.graph.Graph as Graph
+import src.model.objects.k_means.K_MeansVariation as K_MeansVariation
 
 
 class ClosenessGraph(Graph.Graph):

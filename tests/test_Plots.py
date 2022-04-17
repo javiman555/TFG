@@ -1,14 +1,14 @@
 import unittest as utest
 import numpy.testing as ntest
-from src.objects.wave import ComplexWaveDB
-import src.objects.graph.VisibilityGraph as vg
-import src.objects.k_means.K_MeansVariation as K_MeansVariation
+from src.model.objects.wave import ComplexWaveDB
+import src.model.objects.graph.VisibilityGraph as vg
+import src.model.objects.k_means.K_MeansVariation as K_MeansVariation
 
-import src.modules.YahooFinanceAPI as yf
-import src.objects.Stock as sk
+import src.model.modules.YahooFinanceAPI as yf
+import src.model.objects.Stock as sk
 
-import src.objects.k_means.K_Means as K_Means
-import src.objects.graph.ClosenessGraph as cg
+import src.model.objects.k_means.K_Means as K_Means
+import src.model.objects.graph.ClosenessGraph as cg
 import matplotlib.pyplot as plt
 import numpy as np
 

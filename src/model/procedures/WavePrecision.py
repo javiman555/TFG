@@ -1,7 +1,7 @@
-import src.objects.graph.ClosenessGraph as cg
-import src.modules.Wavelete as Wavelete
-import src.modules.Fourier as Fourier
-import src.objects.k_means.K_MeansVariation as K_MeansVariation
+import src.model.objects.graph.ClosenessGraph as cg
+import src.model.modules.Wavelete as Wavelete
+import src.model.modules.Fourier as Fourier
+import src.model.objects.k_means.K_MeansVariation as K_MeansVariation
 
 
 class WavePrecision:

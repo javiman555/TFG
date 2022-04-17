@@ -1,7 +1,7 @@
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
-import src.objects.k_means.K_Means as K_Means
+import src.model.objects.k_means.K_Means as K_Means
 
 
 class Graph(nx.Graph):

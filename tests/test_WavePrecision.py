@@ -1,10 +1,10 @@
 import unittest as utest
-from src.objects.wave import ComplexWaveDB
+from src.model.objects.wave import ComplexWaveDB
 
-import src.modules.YahooFinanceAPI as yf
-import src.procedures.WavePrecision as WavePrecision
-import src.modules.Fourier as Fourier
-import src.modules.Wavelete as Wavelete
+import src.model.modules.YahooFinanceAPI as yf
+import src.model.procedures.WavePrecision as WavePrecision
+import src.model.modules.Fourier as Fourier
+import src.model.modules.Wavelete as Wavelete
 
 class TestWavePrecision(utest.TestCase):
      

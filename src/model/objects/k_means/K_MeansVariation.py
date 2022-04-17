@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd 
 import matplotlib.pyplot as plt
-from src.objects.k_means.K_Means import K_Means
-import src.objects.wave.ComplexWave as ComplexWave
+from src.model.objects.k_means.K_Means import K_Means
+import src.model.objects.wave.ComplexWave as ComplexWave
 import networkx as nx
 import copy
 

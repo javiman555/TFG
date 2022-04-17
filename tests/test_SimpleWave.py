@@ -1,6 +1,6 @@
 import unittest as utest
 import numpy.testing as ntest
-from src.objects.wave import SimpleWave
+from src.model.objects.wave import SimpleWave
 import random as rd
 
 class TestSimpleWave(utest.TestCase):

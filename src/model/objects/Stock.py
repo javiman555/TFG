@@ -1,4 +1,4 @@
-import src.objects.wave.ComplexWaveDB as cw
+import src.model.objects.wave.ComplexWaveDB as cw
 import matplotlib.pyplot as plt
 import numpy as np
 import copy

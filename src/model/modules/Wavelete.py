@@ -1,5 +1,5 @@
 import pywt
-from src.objects.wave.ComplexWave import ComplexWave
+from src.model.objects.wave.ComplexWave import ComplexWave
 import numpy as np
 import copy
 
