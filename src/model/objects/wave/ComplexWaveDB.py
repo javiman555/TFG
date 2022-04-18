@@ -5,6 +5,9 @@ from src.model.objects.wave.ComplexWave import ComplexWave
 import pandas as pd
 import math
 
+import os
+from config.definitions import ROOT_DIR
+
 class ComplexWaveDB(ComplexWave):
     
     def __init__(self,name,dataType,file, precision = 2):
@@ -16,7 +19,8 @@ class ComplexWaveDB(ComplexWave):
 
 
     def inicializeDB(self,name,dataType,file):
-        self.inicializeDBProccess(name,dataType,'../resources/data/'+file)
+        source = os.path.join(ROOT_DIR, 'resources', 'data',file)
+        self.inicializeDBProccess(name,dataType,source)
         
     def inicializeDBProccess(self,name,dataType,source): 
 
