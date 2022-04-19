@@ -85,16 +85,25 @@ class ValueResults:
 
     def valueProcess(self,k,waves,inputWaves,realwaves,flag=0):
         
+        aproxWave = cw.ComplexWave()
+        realWave = cw.ComplexWave()
+        
         cG = CalculateGains.CalculateGains()
         cg1 = cg.ClosenessGraph()
         dA = DiversificateAssets.DiversificateAssets(cg1,inputWaves)
         kmeans = km.K_MeansVariation(0)
         
         if flag == 0:
+            aproxWave.dataName = "Default"
+            realWave.dataName = "Default+"
             cg1.distanceCloseness(waves,kmeans.fitDefault,kmeans)
         elif flag ==1:
+            aproxWave.dataName = "Course"
+            realWave.dataName = "Course+"
             cg1.distanceCloseness(waves,kmeans.fitByCourse,kmeans)
         elif flag ==2:
+            aproxWave.dataName = "CourseValue"
+            realWave.dataName = "CourseValue+"
             cg1.distanceCloseness(waves,kmeans.fitByCourseValue,kmeans)
     
         selectedStocksWaves = dA.getStocksKmeans(k)
@@ -112,11 +121,20 @@ class ValueResults:
                     continue    
                 
         valueListInp =cG.calculateDiversificatedGains(imputSelectedStocksWaves, 1000)
-        valueListReal =cG.calculateDiversificatedGains(realSelectedStocksWaves, 1000)
+        valueListReal =cG.calculateDiversificatedGains(realSelectedStocksWaves, 1000)   
+        
+        aproxWave.y = valueListInp
+        realWave.y = valueListReal
+
+        aproxWave.date = inputWaves[0].date
+        realWave.date = realwaves[0].date
+
 
         print(dA.getVolatilityStandarDeviationProcess(valueListInp))
         print(dA.getVolatilityStandarDeviationProcess(valueListReal))
-        return [valueListInp,valueListReal]
+        #return [valueListInp,valueListReal]
+        return [aproxWave,realWave]
+
 
     def execute(self):
         

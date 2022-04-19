@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd 
 import matplotlib.pyplot as plt
 from src.model.objects.k_means.K_Means import K_Means
-import objects.wave.ComplexWave as ComplexWave
+import src.model.objects.wave.ComplexWave as ComplexWave
 import networkx as nx
 
 #Obsolete

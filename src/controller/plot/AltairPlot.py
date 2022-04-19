@@ -2,6 +2,7 @@ import altair as alt
 from pandas_datareader import data
 import pandas as pd
 import numpy as np
+import datetime
 
 class AltairPlot:
     def __init__(self):
@@ -10,15 +11,16 @@ class AltairPlot:
     def getPlot(self,waves):
         processedWaves = []
         for wave in waves:
-            processedWave = pd.DataFrame(np.array([wave.t, wave.y]).T,columns=['t', 'Price'])
+            processedWave = pd.DataFrame(np.array([wave.date, wave.y]).T,columns=['Date', 'Price'])
             processedWave["Stock"] = wave.dataName
             processedWaves.append(processedWave)
         
         stocks = pd.concat(processedWaves)
-        
+        stocks["Month"] = stocks.Date.dt.month
+        stocks["Year"] = stocks.Date.dt.year
         selection = alt.selection_multi(fields=["Stock"], bind="legend")
         chart = alt.Chart(stocks).mark_line().encode(
-           x="t",
+           x="Date",
            y="Price",
            color="Stock",
            opacity=alt.condition(selection, alt.value(1), alt.value(0.1))
@@ -29,7 +31,7 @@ class AltairPlot:
         )
         return chart
     
-    def getPlotFromStock(self):
+    def getPlotFromYahoo(self):
         
         start = '2021-1-1'
         end = '2021-12-31'

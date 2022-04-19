@@ -2,6 +2,8 @@ from src.controller.plot import AltairPlot
 from io import StringIO
 from src.model.objects.wave import ComplexWaveDB
 import src.model.modules.YahooFinanceAPI as yf
+import src.model.procedures.ValueResults as ValueResults
+
 
 class PlotController:
     def __init__(self):
@@ -16,14 +18,23 @@ class PlotController:
         return output
     
     def getWaves(self):
-        yf1=yf.YahooFinanceAPI(debug=True) 
+        valueResults = ValueResults.ValueResults(debug=True)
+        inputWaves = valueResults.inputStocks
         
-        waves =[]
+        waves = valueResults.inputStocksByGraph
+        
+        
+        realwaves = valueResults.actualizedStocks
+        
+        k= len(realwaves)//3
+        [valueListGD,valueListGDP] = valueResults.valueProcess(k,inputWaves,inputWaves,realwaves,0)        
+        
+        [valueListC,valueListCP] = valueResults.valueProcess(k,inputWaves,inputWaves,realwaves,1)        
+        
+        [valueListCV,valueListCVP] = valueResults.valueProcess(k,inputWaves,inputWaves,realwaves,2)        
 
         
-        for element in yf1.stocks:
-            
-            complexWave = ComplexWaveDB.ComplexWaveDB(element,'Open','DataStocksTest.csv')
-            complexWave.normalice()
-            waves.append(complexWave)
+        waves =[valueListGD,valueListGDP,valueListC,valueListCP,valueListCV,valueListCVP]
+
+
         return waves
