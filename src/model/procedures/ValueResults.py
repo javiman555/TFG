@@ -139,11 +139,7 @@ class ValueResults:
         #return [valueListInp,valueListReal]
         return [aproxWave,realWave]
 
-    def executeFast(self,tickerList,dateStart,dateEnd,money):
-        
-        inputWaves = self.createWave(tickerList,dateStart,dateEnd,debug=False)
-        
-        realwaves = self.createRealWave(tickerList = tickerList,debug=False)
+    def executeFast(self,inputWaves,realwaves,money):
         
         result =[]
         print('-----Distribución homogenea-----')
@@ -174,6 +170,18 @@ class ValueResults:
         print('-----Least Volatile-----')
         [valueListLV,valueListLVP] = self.valueProcess(1,inputWaves,inputWaves,realwaves,0)        
         
+        print('-----------------Normal Wave-------------------')
+        
+        print('-----GenericDistance '+str(k)+'-----')
+        [valueListGD,valueListGDP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,0)        
+        
+        print('-----Course '+str(k)+'-----')
+        [valueListC,valueListCP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,1)        
+        
+        print('-----CourseValue '+str(k)+'-----')
+        [valueListCV,valueListCVP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,2)        
+
+
         valueAproxWave = cw.ComplexWave()
         valueRealWave = cw.ComplexWave()
         cumulativeAproxWave = cw.ComplexWave()
@@ -203,6 +211,13 @@ class ValueResults:
         
         result.append(valueListLV)
         result.append(valueListLVP)
+        
+        result.append(valueListGD)
+        result.append(valueListGDP)
+        result.append(valueListC)
+        result.append(valueListCP)
+        result.append(valueListCV)
+        result.append(valueListCVP)
         return result
     
     def execute(self):
