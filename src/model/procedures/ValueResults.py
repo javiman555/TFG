@@ -32,9 +32,11 @@ class ValueResults:
         self.inputStocks = self.createWave(debug=debug)
         self.inputStocksByGraph = self.createWaveGraph(debug=debug)
         
-    def createRealWave(self,debug=True):
+    def createRealWave(self,tickerList = [],debug=True):
         
         yf1=yf.YahooFinanceAPI(debug=debug)
+        if tickerList != []:
+            yf1.stocks = tickerList
         if not debug:
             yf1.saveStocksStartEnd('2021-01-01','2023-01-01','1d',True,'DataStocks2.csv')
             #yf1.saveStocks('1y','1d',True,'DataStocks2.csv')
@@ -47,10 +49,12 @@ class ValueResults:
             realwaves.append(cw3)
         return realwaves
     
-    def createWave(self,debug=True):
+    def createWave(self,tickerList = [],dateStart = '2021-01-01',dateEnd = '2022-01-01',debug=True):
         yf1=yf.YahooFinanceAPI(debug=debug)
+        if tickerList != []:
+            yf1.stocks = tickerList
         if not debug:
-            yf1.saveStocksStartEnd('2021-01-01','2022-01-01','1d',True,'DataStocks.csv')
+            yf1.saveStocksStartEnd(dateStart,dateEnd,'1d',True,'DataStocks.csv')
         
         inputWaves =[]
         
@@ -135,7 +139,72 @@ class ValueResults:
         #return [valueListInp,valueListReal]
         return [aproxWave,realWave]
 
+    def executeFast(self,tickerList,dateStart,dateEnd,money):
+        
+        inputWaves = self.createWave(tickerList,dateStart,dateEnd,debug=False)
+        
+        realwaves = self.createRealWave(tickerList = tickerList,debug=False)
+        
+        result =[]
+        print('-----Distribución homogenea-----')
+        cG = CalculateGains.CalculateGains()
+        cg1 = cg.ClosenessGraph()
+        dA = DiversificateAssets.DiversificateAssets(cg1,inputWaves)
+        
+        
+        valueListDH = cG.calculateDiversificatedGains(inputWaves, 1000)
+        print(dA.getVolatilityStandarDeviationProcess(valueListDH))
+        valueListDHP = cG.calculateDiversificatedGains(realwaves, 1000)
+        print(dA.getVolatilityStandarDeviationProcess(valueListDHP))
 
+        
+        k= len(realwaves)//3
+        print('-----Random Pick of '+str(k)+' waves-----')
+        randomWaves = rd.sample(inputWaves, k)
+        cumulativeValue = cG.calculateDiversificatedGains(randomWaves, 1000)
+        print(dA.getVolatilityStandarDeviationProcess(cumulativeValue))
+        randomWavesP = []
+        for realwave in realwaves:
+            for wave in randomWaves:
+                if wave.dataName == realwave.dataName:
+                    randomWavesP.append(realwave)
+        cumulativeValueP = cG.calculateDiversificatedGains(randomWavesP, 1000)
+        print(dA.getVolatilityStandarDeviationProcess(cumulativeValueP))
+
+        print('-----Least Volatile-----')
+        [valueListLV,valueListLVP] = self.valueProcess(1,inputWaves,inputWaves,realwaves,0)        
+        
+        valueAproxWave = cw.ComplexWave()
+        valueRealWave = cw.ComplexWave()
+        cumulativeAproxWave = cw.ComplexWave()
+        cumulativeRealWave = cw.ComplexWave()
+        
+        valueAproxWave.y = valueListDH
+        valueRealWave.y = valueListDHP
+        cumulativeAproxWave.y = cumulativeValue
+        cumulativeRealWave.y = cumulativeValueP
+        
+        valueAproxWave.date = valueListLV.date
+        valueRealWave.date = valueListLVP.date
+        cumulativeAproxWave.date = valueListLV.date
+        cumulativeRealWave.date = valueListLVP.date
+        
+        valueAproxWave.dataName = "valueAprox"
+        valueRealWave.dataName = "valueReal"
+        cumulativeAproxWave.dataName = "cumulativeAprox"
+        cumulativeRealWave.dataName = "cumulativeReal"
+        valueListLV.dataName = "LeastVolatileAprox"
+        valueListLVP.dataName = "LeastVolatileReal"
+        
+        result.append(valueAproxWave)
+        result.append(valueRealWave) 
+        result.append(cumulativeAproxWave)
+        result.append(cumulativeRealWave)
+        
+        result.append(valueListLV)
+        result.append(valueListLVP)
+        return result
+    
     def execute(self):
         
         inputWaves = self.inputStocks

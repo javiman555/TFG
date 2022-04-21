@@ -6,33 +6,49 @@
 from QtApp_ui import *
 from pyqtgraph import PlotWidget, plot
 from src.controller.plot import PlotController
+from src.controller.input import InputController
+from src.controller.execution import ExecutionController
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
-    def __init__(self, *args, **kwargs):
-        QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
-        self.setupUi(self) 
-        self.label.setText("Haz clic en el botón")
-        self.pushButton.setText("Presióname")
-        # Conectamos los eventos con sus acciones
-        self.pushButton.clicked.connect(self.actualizar)
-        
-        plotController = PlotController.PlotController()
-        
-        output = plotController.getPlot()
-        self.webEngineView.setHtml(output.getvalue())
-        '''
-        HtmlFile = open("filename.html", 'r', encoding='utf-8')
-        source_code = HtmlFile.read() 
-        self.webEngineView.setHtml(source_code)
-        '''
-        
-        self.graphWidget.plot([1,2,3,4,5,6,7,8,9,10], [30,32,34,32,33,31,29,32,35,45])
+    
+    #Controllers
+    inputController = InputController.InputController()
+    executionController = ExecutionController.ExecutionController()
+    plotController = PlotController.PlotController()
 
-    def actualizar(self):
-        self.label.setText("¡Acabas de hacer clic en el botón!")
+    def __init__(self, *args, **kwargs):
+        
+        QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
+        self.setupUi(self)
+        stockSource = str(self.comboBox_source.currentText())
+        
+        tickerList = self.inputController.getStockNamesFromSource(stockSource)
+        self.listWidget_stock.addItems(tickerList)
+        self.listWidget_stock.selectAll()
+        # Conectamos los eventos con sus acciones
+        self.startButton.clicked.connect(self.execute)
+        
+        
+    def execute(self):
+        
+        dateStart = self.inputController.getDate(self.dateEdit_startDate)
+        dateEnd = self.inputController.getDate(self.dateEdit_endDate)
+        tickerList = self.inputController.getStockNamesFromListWidget(self.listWidget_stock)
+        money = self.inputController.getMoney(self.plainTextEdit_money)
+        
+        if self.radioButton_fast.isChecked():
+            result = self.executionController.executeFast(tickerList,dateStart,dateEnd,money)
+        elif self.radioButton_standar.isChecked():
+            result = self.executionController.executeStandar()
+        elif self.radioButton_slow.isChecked():
+            result = self.executionController.executeSlow()
+        
+        output = self.plotController.getPlot(result)
+        self.chartView.setHtml(output.getvalue())
         
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     window = MainWindow()
     window.show()
     app.exec_()
+
