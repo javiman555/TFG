@@ -15,7 +15,8 @@ class InputController:
     def getStockNamesFromListWidget(self,listWidget):
         tickerList = []
         for x in range(listWidget.count()-1):
-            tickerList.append(listWidget.item(x).text())
+            if listWidget.item(x).isSelected():
+                tickerList.append(listWidget.item(x).text())
         return tickerList
     
     def getDate(self,dateEdit):

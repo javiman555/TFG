@@ -10,9 +10,9 @@ class PlotController:
         self.plotType = "altair"
         self.plot = AltairPlot.AltairPlot()
     
-    def getPlot(self,result):
+    def getPlot(self,result,dateEnd):
         waves = self.getWaves(result)
-        chart = self.plot.getPlot(waves)
+        chart = self.plot.getPlot(waves,dateEnd)
         output = StringIO()
         chart.save(output, "html")
         return output

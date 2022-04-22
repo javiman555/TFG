@@ -8,7 +8,7 @@ class AltairPlot:
     def __init__(self):
         pass
     
-    def getPlot(self,waves):
+    def getPlot(self,waves,dateEnd):
         processedWaves = []
         for wave in waves:
             processedWave = pd.DataFrame(np.array([wave.date, wave.y]).T,columns=['Date', 'Price'])
@@ -29,7 +29,14 @@ class AltairPlot:
         ).add_selection(
            selection
         )
-        return chart
+        rules = alt.Chart(pd.DataFrame({
+          'Date': [dateEnd],
+          'color': ['red']
+        })).mark_rule().encode(
+          x='Date:T',
+          color=alt.Color('color:N', scale=None)
+        )
+        return chart+rules
     
     def getPlotFromYahoo(self):
         

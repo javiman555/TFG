@@ -1,12 +1,12 @@
+import copy
 import pywt
 from src.model.objects.wave.ComplexWave import ComplexWave
 import numpy as np
-import copy
 
 class Wavelete:
     
     def __init__(self):
-       pass
+        pass
    
     def simplificationComplexWave(self,complexWave:ComplexWave):
         

@@ -15,7 +15,7 @@ class ExecutionController:
         
         inputWaves = self.proccess.createWave(tickerList,dateStart,dateEnd,debug=False)
         
-        realwaves = self.proccess.createRealWave(tickerList = tickerList,debug=False)
+        realwaves = self.proccess.createRealWave(tickerList,dateStart,debug=False)
         
         simplifiedInputWaves = self.wavelete.simplificationComplexWaveList(inputWaves)
         simplifiedInputWaves = self.wavelete.simplificationComplexWaveList(simplifiedInputWaves)

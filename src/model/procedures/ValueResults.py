@@ -28,17 +28,15 @@ import copy
 class ValueResults:
     
     def __init__(self,debug=True):
-        self.actualizedStocks = self.createRealWave(debug=debug)
-        self.inputStocks = self.createWave(debug=debug)
-        self.inputStocksByGraph = self.createWaveGraph(debug=debug)
+        pass
         
-    def createRealWave(self,tickerList = [],debug=True):
+    def createRealWave(self,tickerList = [],dateStart = '2021-01-01',debug=True):
         
         yf1=yf.YahooFinanceAPI(debug=debug)
         if tickerList != []:
             yf1.stocks = tickerList
         if not debug:
-            yf1.saveStocksStartEnd('2021-01-01','2023-01-01','1d',True,'DataStocks2.csv')
+            yf1.saveStocksStartEnd(dateStart,'2023-01-01','1d',True,'DataStocks2.csv')
             #yf1.saveStocks('1y','1d',True,'DataStocks2.csv')
         
         realwaves =[]
@@ -87,7 +85,7 @@ class ValueResults:
         orderedWavesBetweenness = km1.order(wavesBetweenness)
         return orderedWavesBetweenness
 
-    def valueProcess(self,k,waves,inputWaves,realwaves,flag=0):
+    def valueProcess(self,k,waves,inputWaves,realwaves,money,flag=0):
         
         aproxWave = cw.ComplexWave()
         realWave = cw.ComplexWave()
@@ -124,8 +122,8 @@ class ValueResults:
                     realSelectedStocksWaves.append(wave)
                     continue    
                 
-        valueListInp =cG.calculateDiversificatedGains(imputSelectedStocksWaves, 1000)
-        valueListReal =cG.calculateDiversificatedGains(realSelectedStocksWaves, 1000)   
+        valueListInp =cG.calculateDiversificatedGains(imputSelectedStocksWaves, money)
+        valueListReal =cG.calculateDiversificatedGains(realSelectedStocksWaves, money)   
         
         aproxWave.y = valueListInp
         realWave.y = valueListReal
@@ -148,38 +146,38 @@ class ValueResults:
         dA = DiversificateAssets.DiversificateAssets(cg1,inputWaves)
         
         
-        valueListDH = cG.calculateDiversificatedGains(inputWaves, 1000)
+        valueListDH = cG.calculateDiversificatedGains(inputWaves, money)
         print(dA.getVolatilityStandarDeviationProcess(valueListDH))
-        valueListDHP = cG.calculateDiversificatedGains(realwaves, 1000)
+        valueListDHP = cG.calculateDiversificatedGains(realwaves, money)
         print(dA.getVolatilityStandarDeviationProcess(valueListDHP))
 
         
         k= len(realwaves)//3
         print('-----Random Pick of '+str(k)+' waves-----')
         randomWaves = rd.sample(inputWaves, k)
-        cumulativeValue = cG.calculateDiversificatedGains(randomWaves, 1000)
+        cumulativeValue = cG.calculateDiversificatedGains(randomWaves, money)
         print(dA.getVolatilityStandarDeviationProcess(cumulativeValue))
         randomWavesP = []
         for realwave in realwaves:
             for wave in randomWaves:
                 if wave.dataName == realwave.dataName:
                     randomWavesP.append(realwave)
-        cumulativeValueP = cG.calculateDiversificatedGains(randomWavesP, 1000)
+        cumulativeValueP = cG.calculateDiversificatedGains(randomWavesP, money)
         print(dA.getVolatilityStandarDeviationProcess(cumulativeValueP))
 
         print('-----Least Volatile-----')
-        [valueListLV,valueListLVP] = self.valueProcess(1,inputWaves,inputWaves,realwaves,0)        
+        [valueListLV,valueListLVP] = self.valueProcess(1,inputWaves,inputWaves,realwaves,money,0)        
         
         print('-----------------Normal Wave-------------------')
         
         print('-----GenericDistance '+str(k)+'-----')
-        [valueListGD,valueListGDP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,0)        
+        [valueListGD,valueListGDP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,money,0)        
         
         print('-----Course '+str(k)+'-----')
-        [valueListC,valueListCP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,1)        
+        [valueListC,valueListCP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,money,1)        
         
         print('-----CourseValue '+str(k)+'-----')
-        [valueListCV,valueListCVP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,2)        
+        [valueListCV,valueListCVP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,money,2)        
 
 
         valueAproxWave = cw.ComplexWave()
@@ -204,19 +202,13 @@ class ValueResults:
         valueListLV.dataName = "LeastVolatileAprox"
         valueListLVP.dataName = "LeastVolatileReal"
         
-        result.append(valueAproxWave)
         result.append(valueRealWave) 
-        result.append(cumulativeAproxWave)
         result.append(cumulativeRealWave)
         
-        result.append(valueListLV)
         result.append(valueListLVP)
         
-        result.append(valueListGD)
         result.append(valueListGDP)
-        result.append(valueListC)
         result.append(valueListCP)
-        result.append(valueListCV)
         result.append(valueListCVP)
         return result
     

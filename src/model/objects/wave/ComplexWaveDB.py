@@ -45,4 +45,5 @@ class ComplexWaveDB(ComplexWave):
         self.date = [pd.to_datetime(date, format='%Y-%m-%d') for date in  data['Date']]
 
         ts = 1.0/(int(data[dataType].size))
+        
         self.t = np.arange(0,1,ts)

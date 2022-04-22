@@ -2,6 +2,7 @@ import yfinance as yf
 import pandas as pd
 import os
 import datetime as dt
+from config.definitions import ROOT_DIR
 
 '''
 data = yf.download(  # or pdr.get_data_yahoo(...
@@ -50,12 +51,13 @@ class YahooFinanceAPI():
             #self.stocks = ['ADDC', 'ADRA', 'ADRE', 'ADRS', 'ADRT', 'ADVT', 'ADVV', 'AMX', 'ASHR', 'AVDE', 'AVDV', 'AVDX', 'AVLR', 'AVRE', 'AVRN', 'BGMD', 'CAC', 'CASH', 'COMP', 'CPC', 'DAX', 'DCTH', 'DECN', 'DSCF', 'DSCR', 'DSGT', 'DSOL', 'DSPC', 'DSTL', 'DUSL', 'HIGA', 'IDX', 'INDS', 'KSI', 'LOWC', 'MADI', 'MAHI', 'MAHN', 'MYDX', 'MYHI', 'NADA', 'NAHD', 'NCTW', 'NYLE', 'PCVX', 'SBES', 'SCSC', 'SDPI', 'SGLN', 'SGMA', 'SIFI', 'SLAC', 'SMPR', 'SMTI', 'SNTE', 'SPAB', 'SPFI', 'SPIN', 'SPIR', 'SPRL', 'SPUS', 'SPXT', 'SSFI', 'SSIC', 'SSOF', 'SSTU', 'STNC', 'STRA', 'STRB', 'STRC', 'STRL', 'STRN', 'STRS', 'STRT', 'SVFD', 'TACK', 'TRIN', 'TRIQ', 'YTFD']
         
     def getStocksIndex(self,file):
-        if not os.path.exists('../resources/data'):
-            os.makedirs('../resources/data')
+        source = os.path.join(ROOT_DIR, 'resources', 'data')
+        if not os.path.exists(source):
+            os.makedirs(source)
           
         stocks =[]
         
-        with open('../resources/data/'+file) as inputfile:
+        with open(os.path.join(source,file)) as inputfile:
             for line in inputfile:
                 stocks.append(line.split()[0])
         return stocks
@@ -68,7 +70,7 @@ class YahooFinanceAPI():
         self.stocks.remove(stockName)
         
     def saveStocks(self,period,interval,threads,file):
-        
+        source = os.path.join(ROOT_DIR, 'resources', 'data')
         bd = list()
         realStocks = []
         
@@ -83,16 +85,17 @@ class YahooFinanceAPI():
                 realStocks.append(ticker)
         self.stocks = realStocks
             
-        if not os.path.exists('../resources/data'):
-            os.makedirs('../resources/data')
+        if not os.path.exists(source):
+            os.makedirs(source)
         
         # combine all dataframes into a single dataframe
         df = pd.concat(bd) 
         # save to csv
-        df.to_csv('../resources/data/'+file)
+        df.to_csv(os.path.join(source,file))
         
     def saveStocksStartEnd(self,start,end,interval,threads,file):
-        
+        source = os.path.join(ROOT_DIR, 'resources', 'data')
+
         bd = list()
         realStocks = []
         
@@ -109,10 +112,9 @@ class YahooFinanceAPI():
                 realStocks.append(ticker)
         self.stocks = realStocks
             
-        if not os.path.exists('../resources/data'):
-            os.makedirs('../resources/data')
-        
+        if not os.path.exists(source):
+            os.makedirs(source)
         # combine all dataframes into a single dataframe
-        df = pd.concat(bd) 
+        df = pd.concat(bd)
         # save to csv
-        df.to_csv('../resources/data/'+file)
+        df.to_csv(os.path.join(source,file))

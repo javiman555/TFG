@@ -43,7 +43,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         elif self.radioButton_slow.isChecked():
             result = self.executionController.executeSlow()
         
-        output = self.plotController.getPlot(result)
+        output = self.plotController.getPlot(result,dateEnd)
         self.chartView.setHtml(output.getvalue())
         
 if __name__ == "__main__":
