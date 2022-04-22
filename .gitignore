@@ -125,5 +125,8 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
+# Pylint Code Analisys Results
+.pylint.d
+
 # Pyre type checker
 .pyre/
