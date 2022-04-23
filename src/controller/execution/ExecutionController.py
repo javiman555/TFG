@@ -21,16 +21,25 @@ class ExecutionController:
         simplifiedInputWaves = self.wavelete.simplificationComplexWaveList(simplifiedInputWaves)
         simplifiedInputWaves = self.wavelete.simplificationComplexWaveList(simplifiedInputWaves)
 
-        simplifiedRealWaves = self.wavelete.simplificationComplexWaveList(realwaves)
-        simplifiedRealWaves = self.wavelete.simplificationComplexWaveList(simplifiedRealWaves)
-        simplifiedRealWaves = self.wavelete.simplificationComplexWaveList(simplifiedRealWaves)
-
-
-        return self.proccess.executeFast(simplifiedInputWaves,simplifiedRealWaves,money)
-    def executeStandar(self):
-        pass
-    def executeSlow(self):
-        pass
+        return self.proccess.executeStandar(simplifiedInputWaves,realwaves,money)
+    
+    def executeStandar(self,tickerList,dateStart,dateEnd,money):
+        inputWaves = self.proccess.createWave(tickerList,dateStart,dateEnd,debug=False)
+        
+        realwaves = self.proccess.createRealWave(tickerList,dateStart,debug=False)
+        
+        return self.proccess.executeStandar(inputWaves,realwaves,money)
+    
+    def executeSlow(self,tickerList,dateStart,dateEnd,money):
+        inputWaves = self.proccess.createWave(tickerList,dateStart,dateEnd,debug=False)
+        
+        waves = self.proccess.createWaveGraph(tickerList,debug=False)
+        
+        realwaves = self.proccess.createRealWave(tickerList,dateStart,debug=False)
+        
+        return self.proccess.executeFull(inputWaves,waves,realwaves,money)
+        
+        
     
     
             

@@ -31,20 +31,23 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         
     def execute(self):
         
+        #Get the current inputs
         dateStart = self.inputController.getDate(self.dateEdit_startDate)
         dateEnd = self.inputController.getDate(self.dateEdit_endDate)
         tickerList = self.inputController.getStockNamesFromListWidget(self.listWidget_stock)
         money = self.inputController.getMoney(self.plainTextEdit_money)
         
+        #Chose execution
         if self.radioButton_fast.isChecked():
             result = self.executionController.executeFast(tickerList,dateStart,dateEnd,money)
         elif self.radioButton_standar.isChecked():
-            result = self.executionController.executeStandar()
+            result = self.executionController.executeStandar(tickerList,dateStart,dateEnd,money)
         elif self.radioButton_slow.isChecked():
-            result = self.executionController.executeSlow()
+            result = self.executionController.executeSlow(tickerList,dateStart,dateEnd,money)
         
-        output = self.plotController.getPlot(result,dateEnd)
-        self.chartView.setHtml(output.getvalue())
+        #Recover the results
+        plot = self.plotController.getPlot(result,dateEnd)
+        self.chartView.setHtml(plot.getvalue())
         
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])

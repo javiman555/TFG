@@ -63,11 +63,11 @@ class ValueResults:
             inputWaves.append(cw3)
         return inputWaves
     
-    def createWaveGraph(self,debug=True):
+    def createWaveGraph(self,tickerList = [],debug=True):
         yf1=yf.YahooFinanceAPI(debug=debug)
+        if tickerList != []:
+            yf1.stocks = tickerList
         
-        
-        inputWaves =[]
         graphs = []
         
         for element in yf1.stocks:
@@ -77,7 +77,6 @@ class ValueResults:
             vg2 = vg.VisibilityGraph(cw3.toGraph,cw3.dataName)
             
             graphs.append(vg2)
-            inputWaves.append(cw3)
         
         
         km1 = km.K_MeansVariation(4)
@@ -97,17 +96,29 @@ class ValueResults:
         
         if flag == 0:
             aproxWave.dataName = "Default"
-            realWave.dataName = "Default+"
+            realWave.dataName = "Default"
             cg1.distanceCloseness(waves,kmeans.fitDefault,kmeans)
         elif flag ==1:
             aproxWave.dataName = "Course"
-            realWave.dataName = "Course+"
+            realWave.dataName = "Course"
             cg1.distanceCloseness(waves,kmeans.fitByCourse,kmeans)
         elif flag ==2:
             aproxWave.dataName = "CourseValue"
-            realWave.dataName = "CourseValue+"
+            realWave.dataName = "CourseValue"
             cg1.distanceCloseness(waves,kmeans.fitByCourseValue,kmeans)
-    
+        if flag == 3:
+            aproxWave.dataName = "Default Graph"
+            realWave.dataName = "Default Graph"
+            cg1.distanceCloseness(waves,kmeans.fitDefault,kmeans)
+        elif flag ==4:
+            aproxWave.dataName = "Course Graph"
+            realWave.dataName = "Course Graph"
+            cg1.distanceCloseness(waves,kmeans.fitByCourse,kmeans)
+        elif flag ==5:
+            aproxWave.dataName = "CourseValue Graph"
+            realWave.dataName = "CourseValue Graph"
+            cg1.distanceCloseness(waves,kmeans.fitByCourseValue,kmeans)
+            
         selectedStocksWaves = dA.getStocksKmeans(k)
         imputSelectedStocksWaves = []
         for i in range(len(selectedStocksWaves)):
@@ -137,7 +148,7 @@ class ValueResults:
         #return [valueListInp,valueListReal]
         return [aproxWave,realWave]
 
-    def executeFast(self,inputWaves,realwaves,money):
+    def executeStandar(self,inputWaves,realwaves,money):
         
         result =[]
         print('-----Distribución homogenea-----')
@@ -212,74 +223,95 @@ class ValueResults:
         result.append(valueListCVP)
         return result
     
-    def execute(self):
+    def executeFull(self,inputWaves,waves,realwaves,money):
         
-        inputWaves = self.inputStocks
-        
-        waves = self.inputStocksByGraph
-        
-        
-        realwaves = self.actualizedStocks
-        
-        
+        result =[]
         print('-----Distribución homogenea-----')
         cG = CalculateGains.CalculateGains()
         cg1 = cg.ClosenessGraph()
         dA = DiversificateAssets.DiversificateAssets(cg1,inputWaves)
         
-        valueListDH = cG.calculateDiversificatedGains(inputWaves, 1000)
+        valueListDH = cG.calculateDiversificatedGains(inputWaves, money)
         print(dA.getVolatilityStandarDeviationProcess(valueListDH))
 
-        valueListDHP = cG.calculateDiversificatedGains(realwaves, 1000)
+        valueListDHP = cG.calculateDiversificatedGains(realwaves, money)
         print(dA.getVolatilityStandarDeviationProcess(valueListDHP))
 
         k= len(realwaves)//3
         print('-----Random Pick of '+str(k)+' waves-----')
         randomWaves = rd.sample(inputWaves, k)
-        cumulativeValue = cG.calculateDiversificatedGains(randomWaves, 1000)
+        cumulativeValue = cG.calculateDiversificatedGains(randomWaves, money)
         print(dA.getVolatilityStandarDeviationProcess(cumulativeValue))
         randomWavesP = []
         for realwave in realwaves:
             for wave in randomWaves:
                 if wave.dataName == realwave.dataName:
                     randomWavesP.append(realwave)
-        cumulativeValueP = cG.calculateDiversificatedGains(randomWavesP, 1000)
+        cumulativeValueP = cG.calculateDiversificatedGains(randomWavesP, money)
         print(dA.getVolatilityStandarDeviationProcess(cumulativeValueP))        
         
         print('-----Least Volatile-----')
-        [valueListLV,valueListLVP] = self.valueProcess(1,inputWaves,inputWaves,realwaves,0)        
+        [valueListLV,valueListLVP] = self.valueProcess(1,inputWaves,inputWaves,realwaves,money,0)        
         
         print('-----------------Normal Wave-------------------')
         
         print('-----GenericDistance '+str(k)+'-----')
-        [valueListGD,valueListGDP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,0)        
+        [valueListGD,valueListGDP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,money,0)        
         
         print('-----Course '+str(k)+'-----')
-        [valueListC,valueListCP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,1)        
+        [valueListC,valueListCP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,money,1)        
         
         print('-----CourseValue '+str(k)+'-----')
-        [valueListCV,valueListCVP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,2)        
+        [valueListCV,valueListCVP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,money,2)        
 
-        
-        self.draw(cumulativeValue,valueListDH,valueListLV,valueListGD,valueListC,valueListCV)
-        
-        self.draw(cumulativeValueP,valueListDHP,valueListLVP,valueListGDP,valueListCP,valueListCVP)
-        
+
         print('-----------------Visibility Graph-------------------')
         
         print('-----GenericDistance '+str(k)+'-----')
-        [valueListGD,valueListGDP] = self.valueProcess(k,waves,inputWaves,realwaves,0)        
+        [valueListGGD,valueListGGDP] = self.valueProcess(k,waves,inputWaves,realwaves,money,3)        
         
         print('-----Course '+str(k)+'-----')
-        [valueListC,valueListCP] = self.valueProcess(k,waves,inputWaves,realwaves,1)        
+        [valueListGC,valueListGCP] = self.valueProcess(k,waves,inputWaves,realwaves,money,4)        
         
         print('-----CourseValue '+str(k)+'-----')
-        [valueListCV,valueListCVP] = self.valueProcess(k,waves,inputWaves,realwaves,2)
+        [valueListGCV,valueListGCVP] = self.valueProcess(k,waves,inputWaves,realwaves,money,5)
 
-        self.draw(cumulativeValue,valueListDH,valueListLV,valueListGD,valueListC,valueListCV)
+        valueAproxWave = cw.ComplexWave()
+        valueRealWave = cw.ComplexWave()
+        cumulativeAproxWave = cw.ComplexWave()
+        cumulativeRealWave = cw.ComplexWave()
         
-        self.draw(cumulativeValueP,valueListDHP,valueListLVP,valueListGDP,valueListCP,valueListCVP)
-
+        valueAproxWave.y = valueListDH
+        valueRealWave.y = valueListDHP
+        cumulativeAproxWave.y = cumulativeValue
+        cumulativeRealWave.y = cumulativeValueP
+        
+        valueAproxWave.date = valueListLV.date
+        valueRealWave.date = valueListLVP.date
+        cumulativeAproxWave.date = valueListLV.date
+        cumulativeRealWave.date = valueListLVP.date
+        
+        valueAproxWave.dataName = "valueAprox"
+        valueRealWave.dataName = "valueReal"
+        cumulativeAproxWave.dataName = "cumulativeAprox"
+        cumulativeRealWave.dataName = "cumulativeReal"
+        valueListLV.dataName = "LeastVolatileAprox"
+        valueListLVP.dataName = "LeastVolatileReal"
+        
+        result.append(valueRealWave) 
+        result.append(cumulativeRealWave)
+        
+        result.append(valueListLVP)
+        
+        result.append(valueListGDP)
+        result.append(valueListCP)
+        result.append(valueListCVP)
+        
+        result.append(valueListGGDP)
+        result.append(valueListGCP)
+        result.append(valueListGCVP)
+        return result
+    
     def draw(self,valueListRD,valueListDH,valueListLV,valueListGD,valueListC,valueListCV):
         plt.figure(figsize = (8, 6))
         plt.title('Valor')
