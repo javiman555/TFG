@@ -95,27 +95,27 @@ class ValueResults:
         kmeans = km.K_MeansVariation(0)
         
         if flag == 0:
-            aproxWave.dataName = "Default"
+            aproxWave.dataName = "Default Aprox"
             realWave.dataName = "Default"
             cg1.distanceCloseness(waves,kmeans.fitDefault,kmeans)
         elif flag ==1:
-            aproxWave.dataName = "Course"
+            aproxWave.dataName = "Course Aprox"
             realWave.dataName = "Course"
             cg1.distanceCloseness(waves,kmeans.fitByCourse,kmeans)
         elif flag ==2:
-            aproxWave.dataName = "CourseValue"
+            aproxWave.dataName = "CourseValue Aprox"
             realWave.dataName = "CourseValue"
             cg1.distanceCloseness(waves,kmeans.fitByCourseValue,kmeans)
         if flag == 3:
-            aproxWave.dataName = "Default Graph"
+            aproxWave.dataName = "Default Graph Aprox"
             realWave.dataName = "Default Graph"
             cg1.distanceCloseness(waves,kmeans.fitDefault,kmeans)
         elif flag ==4:
-            aproxWave.dataName = "Course Graph"
+            aproxWave.dataName = "Course Graph Aprox"
             realWave.dataName = "Course Graph"
             cg1.distanceCloseness(waves,kmeans.fitByCourse,kmeans)
         elif flag ==5:
-            aproxWave.dataName = "CourseValue Graph"
+            aproxWave.dataName = "CourseValue Graph Aprox"
             realWave.dataName = "CourseValue Graph"
             cg1.distanceCloseness(waves,kmeans.fitByCourseValue,kmeans)
             
@@ -148,36 +148,70 @@ class ValueResults:
         #return [valueListInp,valueListReal]
         return [aproxWave,realWave]
 
-    def executeStandar(self,inputWaves,realwaves,money):
-        
-        result =[]
-        print('-----Distribución homogenea-----')
+    def equalDistribution(self,inputWaves,realwaves,money):
         cG = CalculateGains.CalculateGains()
         cg1 = cg.ClosenessGraph()
         dA = DiversificateAssets.DiversificateAssets(cg1,inputWaves)
         
+        print('-----Distribución homogenea-----')
+        equalDistributionAprox = cG.calculateDiversificatedGains(inputWaves, money)
+        print(dA.getVolatilityStandarDeviationProcess(equalDistributionAprox))
+        equalDistributionReal = cG.calculateDiversificatedGains(realwaves, money)
+        print(dA.getVolatilityStandarDeviationProcess(equalDistributionReal))
         
-        valueListDH = cG.calculateDiversificatedGains(inputWaves, money)
-        print(dA.getVolatilityStandarDeviationProcess(valueListDH))
-        valueListDHP = cG.calculateDiversificatedGains(realwaves, money)
-        print(dA.getVolatilityStandarDeviationProcess(valueListDHP))
+        equalDistributionAproxWave = cw.ComplexWave()
+        equalDistributionRealWave = cw.ComplexWave()
+        equalDistributionAproxWave.y = equalDistributionAprox
+        equalDistributionRealWave.y = equalDistributionReal
+        equalDistributionAproxWave.date = inputWaves[0].date
+        equalDistributionRealWave.date = realwaves[0].date   
+        equalDistributionAproxWave.dataName = "equalDistributionAprox"
+        equalDistributionRealWave.dataName = "equalDistributionReal"
+        
+        return[equalDistributionAproxWave,equalDistributionRealWave]
 
+    def randomDistribution(self,k,inputWaves,realwaves,money):
+        cG = CalculateGains.CalculateGains()
+        cg1 = cg.ClosenessGraph()
+        dA = DiversificateAssets.DiversificateAssets(cg1,inputWaves)
         
-        k= len(realwaves)//3
         print('-----Random Pick of '+str(k)+' waves-----')
         randomWaves = rd.sample(inputWaves, k)
-        cumulativeValue = cG.calculateDiversificatedGains(randomWaves, money)
-        print(dA.getVolatilityStandarDeviationProcess(cumulativeValue))
+        randomAprox = cG.calculateDiversificatedGains(randomWaves, money)
+        print(dA.getVolatilityStandarDeviationProcess(randomAprox))
         randomWavesP = []
         for realwave in realwaves:
             for wave in randomWaves:
                 if wave.dataName == realwave.dataName:
                     randomWavesP.append(realwave)
-        cumulativeValueP = cG.calculateDiversificatedGains(randomWavesP, money)
-        print(dA.getVolatilityStandarDeviationProcess(cumulativeValueP))
+        randomReal = cG.calculateDiversificatedGains(randomWavesP, money)
+        print(dA.getVolatilityStandarDeviationProcess(randomReal))
+        randomAproxWave = cw.ComplexWave()
+        randomRealWave = cw.ComplexWave()
+        randomAproxWave.y = randomAprox
+        randomRealWave.y = randomReal
+        randomAproxWave.date = inputWaves[0].date
+        randomRealWave.date = realwaves[0].date
+        randomAproxWave.dataName = "randomAprox"
+        randomRealWave.dataName = "randomReal"
+        return [randomAproxWave,randomRealWave]
+        
+    def executeStandar(self,inputWaves,realwaves,money):
+        
+        k= len(realwaves)//3
+        result =[]
+        [aprox,real] = self.equalDistribution(inputWaves,realwaves,money)
+        result.append(real)
 
+        [aprox,real] = self.randomDistribution(k,inputWaves,realwaves,money)
+        result.append(real)
+        
         print('-----Least Volatile-----')
         [valueListLV,valueListLVP] = self.valueProcess(1,inputWaves,inputWaves,realwaves,money,0)        
+        valueListLV.dataName = "LeastVolatileAprox"
+        valueListLVP.dataName = "LeastVolatileReal"
+        
+        result.append(valueListLVP)
         
         print('-----------------Normal Wave-------------------')
         
@@ -189,34 +223,6 @@ class ValueResults:
         
         print('-----CourseValue '+str(k)+'-----')
         [valueListCV,valueListCVP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,money,2)        
-
-
-        valueAproxWave = cw.ComplexWave()
-        valueRealWave = cw.ComplexWave()
-        cumulativeAproxWave = cw.ComplexWave()
-        cumulativeRealWave = cw.ComplexWave()
-        
-        valueAproxWave.y = valueListDH
-        valueRealWave.y = valueListDHP
-        cumulativeAproxWave.y = cumulativeValue
-        cumulativeRealWave.y = cumulativeValueP
-        
-        valueAproxWave.date = valueListLV.date
-        valueRealWave.date = valueListLVP.date
-        cumulativeAproxWave.date = valueListLV.date
-        cumulativeRealWave.date = valueListLVP.date
-        
-        valueAproxWave.dataName = "valueAprox"
-        valueRealWave.dataName = "valueReal"
-        cumulativeAproxWave.dataName = "cumulativeAprox"
-        cumulativeRealWave.dataName = "cumulativeReal"
-        valueListLV.dataName = "LeastVolatileAprox"
-        valueListLVP.dataName = "LeastVolatileReal"
-        
-        result.append(valueRealWave) 
-        result.append(cumulativeRealWave)
-        
-        result.append(valueListLVP)
         
         result.append(valueListGDP)
         result.append(valueListCP)
@@ -225,33 +231,20 @@ class ValueResults:
     
     def executeFull(self,inputWaves,waves,realwaves,money):
         
-        result =[]
-        print('-----Distribución homogenea-----')
-        cG = CalculateGains.CalculateGains()
-        cg1 = cg.ClosenessGraph()
-        dA = DiversificateAssets.DiversificateAssets(cg1,inputWaves)
-        
-        valueListDH = cG.calculateDiversificatedGains(inputWaves, money)
-        print(dA.getVolatilityStandarDeviationProcess(valueListDH))
-
-        valueListDHP = cG.calculateDiversificatedGains(realwaves, money)
-        print(dA.getVolatilityStandarDeviationProcess(valueListDHP))
-
         k= len(realwaves)//3
-        print('-----Random Pick of '+str(k)+' waves-----')
-        randomWaves = rd.sample(inputWaves, k)
-        cumulativeValue = cG.calculateDiversificatedGains(randomWaves, money)
-        print(dA.getVolatilityStandarDeviationProcess(cumulativeValue))
-        randomWavesP = []
-        for realwave in realwaves:
-            for wave in randomWaves:
-                if wave.dataName == realwave.dataName:
-                    randomWavesP.append(realwave)
-        cumulativeValueP = cG.calculateDiversificatedGains(randomWavesP, money)
-        print(dA.getVolatilityStandarDeviationProcess(cumulativeValueP))        
+        result =[]
+        [aprox,real] = self.equalDistribution(inputWaves,realwaves,money)
+        result.append(real)
+
+        [aprox,real] = self.randomDistribution(k,inputWaves,realwaves,money)
+        result.append(real)
         
         print('-----Least Volatile-----')
         [valueListLV,valueListLVP] = self.valueProcess(1,inputWaves,inputWaves,realwaves,money,0)        
+        valueListLV.dataName = "LeastVolatileAprox"
+        valueListLVP.dataName = "LeastVolatileReal"
+        
+        result.append(valueListLVP)
         
         print('-----------------Normal Wave-------------------')
         
@@ -263,7 +256,10 @@ class ValueResults:
         
         print('-----CourseValue '+str(k)+'-----')
         [valueListCV,valueListCVP] = self.valueProcess(k,inputWaves,inputWaves,realwaves,money,2)        
-
+        
+        result.append(valueListGDP)
+        result.append(valueListCP)
+        result.append(valueListCVP)
 
         print('-----------------Visibility Graph-------------------')
         
@@ -275,37 +271,6 @@ class ValueResults:
         
         print('-----CourseValue '+str(k)+'-----')
         [valueListGCV,valueListGCVP] = self.valueProcess(k,waves,inputWaves,realwaves,money,5)
-
-        valueAproxWave = cw.ComplexWave()
-        valueRealWave = cw.ComplexWave()
-        cumulativeAproxWave = cw.ComplexWave()
-        cumulativeRealWave = cw.ComplexWave()
-        
-        valueAproxWave.y = valueListDH
-        valueRealWave.y = valueListDHP
-        cumulativeAproxWave.y = cumulativeValue
-        cumulativeRealWave.y = cumulativeValueP
-        
-        valueAproxWave.date = valueListLV.date
-        valueRealWave.date = valueListLVP.date
-        cumulativeAproxWave.date = valueListLV.date
-        cumulativeRealWave.date = valueListLVP.date
-        
-        valueAproxWave.dataName = "valueAprox"
-        valueRealWave.dataName = "valueReal"
-        cumulativeAproxWave.dataName = "cumulativeAprox"
-        cumulativeRealWave.dataName = "cumulativeReal"
-        valueListLV.dataName = "LeastVolatileAprox"
-        valueListLVP.dataName = "LeastVolatileReal"
-        
-        result.append(valueRealWave) 
-        result.append(cumulativeRealWave)
-        
-        result.append(valueListLVP)
-        
-        result.append(valueListGDP)
-        result.append(valueListCP)
-        result.append(valueListCVP)
         
         result.append(valueListGGDP)
         result.append(valueListGCP)
