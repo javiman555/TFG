@@ -4,6 +4,8 @@ from src.model.objects.wave import ComplexWaveDB
 import src.model.modules.YahooFinanceAPI as yf
 import src.model.procedures.ValueResults as ValueResults
 import src.model.modules.Wavelete as Wavelete
+import src.model.modules.YahooFinanceAPI as yf
+from config.definitions import TODAY_DATE
 
 class ExecutionController:
     
@@ -11,11 +13,16 @@ class ExecutionController:
         self.proccess = ValueResults.ValueResults()
         self.wavelete = Wavelete.Wavelete()
     
+    def saveStoks(self):
+        yf1=yf.YahooFinanceAPI(debug=False)
+        yf1.saveStocksStartEnd('2000-01-01',TODAY_DATE,'1d',True,'DataStocks.csv')
+        
+    
     def executeFast(self,tickerList,dateStart,dateEnd,money):
         
-        inputWaves = self.proccess.createWave(tickerList,dateStart,dateEnd,debug=False)
+        inputWaves = self.proccess.createWave(dateStart,dateEnd,tickerList,debug=False)
         
-        realwaves = self.proccess.createRealWave(tickerList,dateStart,debug=False)
+        realwaves = self.proccess.createWave(dateStart,TODAY_DATE,tickerList,debug=False)
         
         simplifiedInputWaves = self.wavelete.simplificationComplexWaveList(inputWaves)
         simplifiedInputWaves = self.wavelete.simplificationComplexWaveList(simplifiedInputWaves)
@@ -24,18 +31,18 @@ class ExecutionController:
         return self.proccess.executeStandar(simplifiedInputWaves,realwaves,money)
     
     def executeStandar(self,tickerList,dateStart,dateEnd,money):
-        inputWaves = self.proccess.createWave(tickerList,dateStart,dateEnd,debug=False)
+        inputWaves = self.proccess.createWave(dateStart,dateEnd,tickerList,debug=False)
         
-        realwaves = self.proccess.createRealWave(tickerList,dateStart,debug=False)
+        realwaves = self.proccess.createWave(dateStart,TODAY_DATE,tickerList,debug=False)
         
         return self.proccess.executeStandar(inputWaves,realwaves,money)
     
     def executeSlow(self,tickerList,dateStart,dateEnd,money):
-        inputWaves = self.proccess.createWave(tickerList,dateStart,dateEnd,debug=False)
+        inputWaves = self.proccess.createWave(dateStart,dateEnd,tickerList,debug=False)
+                
+        waves = self.proccess.createWaveGraph(dateStart,dateEnd,tickerList,debug=False)
         
-        waves = self.proccess.createWaveGraph(tickerList,debug=False)
-        
-        realwaves = self.proccess.createRealWave(tickerList,dateStart,debug=False)
+        realwaves = self.proccess.createWave(dateStart,TODAY_DATE,tickerList,debug=False)
         
         return self.proccess.executeFull(inputWaves,waves,realwaves,money)
         

@@ -17,7 +17,7 @@ class TestComplexWave(utest.TestCase):
         ntest.assert_array_almost_equal(complexWave.y, [-2.52441295,  2.99503816, -2.32166059,  0.76148758,  1.0895478 ])
 
     def test_create_stock_complex_wave(self):
-        complexWave = ComplexWaveDB.ComplexWaveDB('SAB.MC','Open','DataStocksTest.csv',1)
+        complexWave = ComplexWaveDB.ComplexWaveDB('SAB.MC','Open','DataStocksTest.csv',precision=1)
         
         self.assertEqual(complexWave.dataName, "SAB.MC (Open)")
         self.assertEqual(complexWave.precision, 1)

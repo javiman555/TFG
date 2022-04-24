@@ -48,7 +48,7 @@
       <x>10</x>
       <y>10</y>
       <width>171</width>
-      <height>511</height>
+      <height>521</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -251,6 +251,32 @@
       </item>
      </layout>
     </widget>
+   </widget>
+   <widget class="QPlainTextEdit" name="plainTextEdit_k">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>500</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="plainText">
+     <string>4</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_k">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>490</y>
+      <width>31</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>K</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

@@ -30,40 +30,21 @@ class ValueResults:
     def __init__(self,debug=True):
         pass
         
-    def createRealWave(self,tickerList = [],dateStart = '2021-01-01',debug=True):
-        
+    def createWave(self,dateStart,dateEnd,tickerList = [],debug=True):
         yf1=yf.YahooFinanceAPI(debug=debug)
         if tickerList != []:
             yf1.stocks = tickerList
-        if not debug:
-            yf1.saveStocksStartEnd(dateStart,'2023-01-01','1d',True,'DataStocks2.csv')
-            #yf1.saveStocks('1y','1d',True,'DataStocks2.csv')
-        
-        realwaves =[]
-        
-        for element in yf1.stocks:
-            
-            cw3 = ComplexWaveDB.ComplexWaveDB(element,'Open','DataStocks2.csv')
-            realwaves.append(cw3)
-        return realwaves
-    
-    def createWave(self,tickerList = [],dateStart = '2021-01-01',dateEnd = '2022-01-01',debug=True):
-        yf1=yf.YahooFinanceAPI(debug=debug)
-        if tickerList != []:
-            yf1.stocks = tickerList
-        if not debug:
-            yf1.saveStocksStartEnd(dateStart,dateEnd,'1d',True,'DataStocks.csv')
-        
+
         inputWaves =[]
         
         for element in yf1.stocks:
             
-            cw3 = ComplexWaveDB.ComplexWaveDB(element,'Open','DataStocks.csv')
+            cw3 = ComplexWaveDB.ComplexWaveDB(element,'Open','DataStocks.csv',dateStart,dateEnd)
             cw3.normalice()
             inputWaves.append(cw3)
         return inputWaves
     
-    def createWaveGraph(self,tickerList = [],debug=True):
+    def createWaveGraph(self,dateStart,dateEnd,tickerList = [],debug=True):
         yf1=yf.YahooFinanceAPI(debug=debug)
         if tickerList != []:
             yf1.stocks = tickerList
@@ -72,7 +53,7 @@ class ValueResults:
         
         for element in yf1.stocks:
             
-            cw3 = ComplexWaveDB.ComplexWaveDB(element,'Open','DataStocks.csv')
+            cw3 = ComplexWaveDB.ComplexWaveDB(element,'Open','DataStocks.csv',dateStart,dateEnd)
             cw3.normalice()
             vg2 = vg.VisibilityGraph(cw3.toGraph,cw3.dataName)
             

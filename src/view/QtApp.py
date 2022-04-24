@@ -8,6 +8,7 @@ from pyqtgraph import PlotWidget, plot
 from src.controller.plot import PlotController
 from src.controller.input import InputController
 from src.controller.execution import ExecutionController
+from PyQt5.QtWidgets import QMessageBox
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     
@@ -27,7 +28,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.listWidget_stock.selectAll()
         # Conectamos los eventos con sus acciones
         self.startButton.clicked.connect(self.execute)
+        self.updateStocks()
         
+    def updateStocks(self):
+        try:
+            self.executionController.saveStoks()
+        except:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setText("Warning")
+            msg.setInformativeText('The stock info migth be outdated but you can still use the app')
+            msg.setWindowTitle("Warning")
+            msg.exec_()
         
     def execute(self):
         

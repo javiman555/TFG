@@ -10,19 +10,19 @@ from config.definitions import ROOT_DIR
 
 class ComplexWaveDB(ComplexWave):
     
-    def __init__(self,name,dataType,file, precision = 2):
+    def __init__(self,name,dataType,file,dateStart='2021-03-10',dateEnd='2022-03-10',precision = 2):
         
         ComplexWave.__init__(self,precision)
-        self.inicializeDB(name,dataType,file)
+        self.inicializeDB(name,dateStart,dateEnd,dataType,file)
         self.processDatatoGraph()
 
 
 
-    def inicializeDB(self,name,dataType,file):
+    def inicializeDB(self,name,dateStart,dateEnd,dataType,file):
         source = os.path.join(ROOT_DIR, 'resources', 'data',file)
-        self.inicializeDBProccess(name,dataType,source)
+        self.inicializeDBProccess(name,dateStart,dateEnd,dataType,source)
         
-    def inicializeDBProccess(self,name,dataType,source): 
+    def inicializeDBProccess(self,name,dateStart,dateEnd,dataType,source): 
 
         self.dataName = name+' ('+dataType+')'
 
@@ -30,6 +30,13 @@ class ComplexWaveDB(ComplexWave):
     
         criteria = (data['ticker'] ==name)
         data=data[criteria]
+        
+        after_start_date = data["Date"] >= dateStart
+        before_end_date = data["Date"] <= dateEnd
+        between_two_dates = after_start_date & before_end_date
+        data = data.loc[between_two_dates]
+        
+        
         
         self.y =np.array(data[dataType].array)
         
