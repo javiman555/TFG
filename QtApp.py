@@ -3,7 +3,7 @@
 #To save changes $ python -m PyQt5.uic.pyuic -x QtApp.ui -o QtApp_ui.py
 
 
-from QtApp_ui import *
+from src.view.QtApp_ui import *
 from pyqtgraph import PlotWidget, plot
 from src.controller.plot import PlotController
 from src.controller.input import InputController
