@@ -96,25 +96,35 @@ class YahooFinanceAPI():
     def saveStocksStartEnd(self,start,end,interval,threads,file):
         source = os.path.join(ROOT_DIR, 'resources', 'data')
 
-        bd = list()
-        realStocks = []
+        data=pd.read_csv(os.path.join(ROOT_DIR, 'resources', 'data',file),header=0)
         
-        startdate = dt.datetime.strptime(start, "%Y-%m-%d").date()
-        enddate = dt.datetime.strptime(end, "%Y-%m-%d").date()
-        
-        for ticker in self.stocks:
+        #Check if the data of the day have already been saved
+        yesterday = (dt.datetime.strptime(end, "%Y-%m-%d").date()- dt.timedelta(days=1)).strftime("%Y-%m-%d")
+        saved = False
+        for date in data['Date']:
+            if yesterday == date:
+               saved = True
+        if not saved:
+
+            bd = list()
+            realStocks = []
             
-            data = yf.download(ticker, group_by="Ticker",threads =threads, start=startdate, end=enddate,interval=interval)
-            #Need next line to have a pseudo id from the ticker+date
-            if not data.empty:
-                data['ticker'] = ticker
-                bd.append(data)
-                realStocks.append(ticker)
-        self.stocks = realStocks
+            startdate = dt.datetime.strptime(start, "%Y-%m-%d").date()
+            enddate = dt.datetime.strptime(end, "%Y-%m-%d").date()
             
-        if not os.path.exists(source):
-            os.makedirs(source)
-        # combine all dataframes into a single dataframe
-        df = pd.concat(bd)
-        # save to csv
-        df.to_csv(os.path.join(source,file))
+            for ticker in self.stocks:
+                
+                data = yf.download(ticker, group_by="Ticker",threads =threads, start=startdate, end=enddate,interval=interval)
+                #Need next line to have a pseudo id from the ticker+date
+                if not data.empty:
+                    data['ticker'] = ticker
+                    bd.append(data)
+                    realStocks.append(ticker)
+            self.stocks = realStocks
+                
+            if not os.path.exists(source):
+                os.makedirs(source)
+            # combine all dataframes into a single dataframe
+            df = pd.concat(bd)
+            # save to csv
+            df.to_csv(os.path.join(source,file))

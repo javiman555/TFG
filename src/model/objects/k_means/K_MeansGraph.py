@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import networkx as nx
 import random
+import math
 
 class K_MeansGraph:
 
@@ -17,7 +18,7 @@ class K_MeansGraph:
     def fitGraphProcess(self,graph):
         
 		#initialize the centroids, the first distinct 'k' elements in the dataset will be our initial centroids 
-        centroids = self.initializeClustersFirstElements(graph,self.k)
+        centroids = self.initializeClustersBetter(graph,self.k)
         #centroids = self.initializeClustersRandom(graph,self.k)
         
         nLoops = 0
@@ -62,6 +63,41 @@ class K_MeansGraph:
         for i in graph.nodes():
             if j < k:
                 output[j] = i
+                j +=1
+            else:
+                break
+        return output
+    
+	#initialize the centroids by distances
+    def initializeClustersBetter(self, graph,k):
+        firstCentroid = max(nx.betweenness_centrality(graph, k=None, normalized=True, weight=None, endpoints=False, seed=None))
+
+        output = {}
+        output[0] = firstCentroid
+        j = 1
+        freeNodes = list(graph.nodes())
+        freeNodes.remove(output[0])
+        for i in range(len(graph.nodes())):
+            if j < k:
+                
+                totalDistances = {}
+                for node in freeNodes:
+                    totalDistances[node] = 0
+                    
+                for i,startNode in output.items():
+                    distances = {}
+                    for node in freeNodes:
+                        try:
+                            distances[node] = (nx.dijkstra_path_length(graph, source=startNode, target=node))
+                        except:
+                            # Exeption infinite distance if nodes not conected
+                            # We asigne numeric value to count number of infinities 
+                            distances[node] = 10**100
+                    for name,distance in distances.items():
+                        totalDistances[name] = totalDistances[name]+distance
+                        
+                output[j] = max(totalDistances)
+                freeNodes.remove(output[j])
                 j +=1
             else:
                 break

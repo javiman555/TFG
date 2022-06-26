@@ -24,7 +24,9 @@ class ComplexWaveDB(ComplexWave):
         
     def inicializeDBProccess(self,name,dateStart,dateEnd,dataType,source): 
 
-        self.dataName = name+' ('+dataType+')'
+        self.dataName = name
+        #self.dataName = name+' ('+dataType+')'
+
 
         data=pd.read_csv(source,header=0)
     

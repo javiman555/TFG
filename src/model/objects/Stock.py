@@ -11,10 +11,10 @@ class Stock:
         
         self.precision = precision
         
-        self.open = cw.ComplexWaveDB(stockName,'Open',file,precision)
-        self.close = cw.ComplexWaveDB(stockName,'Close',file,precision)
-        self.high = cw.ComplexWaveDB(stockName,'High',file,precision)
-        self.low = cw.ComplexWaveDB(stockName,'Low',file,precision)
+        self.open = cw.ComplexWaveDB(stockName,'Open',file,precision=precision)
+        self.close = cw.ComplexWaveDB(stockName,'Close',file,precision=precision)
+        self.high = cw.ComplexWaveDB(stockName,'High',file,precision=precision)
+        self.low = cw.ComplexWaveDB(stockName,'Low',file,precision=precision)
         
         self.volatilityParkinson = self.getVolatilityParkinson()
         

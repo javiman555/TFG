@@ -1,0 +1,55 @@
+----------------Average de equalDistributionReal entre 4 y 12
+Stocks: []
+Volatilidad input: 121.95
+Valor input: 1135.58
+Volatilidad Actual: 34.7
+Valor Actual: 1189.75
+----------------Average de randomReal entre 4 y 12
+Stocks: []
+Volatilidad input: 149.11
+Valor input: 1152.65
+Volatilidad Actual: 44.89
+Valor Actual: 1175.19
+----------------Average de LeastVolatileReal entre 4 y 12
+Stocks: ['VIS.MC']
+Volatilidad input: 34.79
+Valor input: 1004.26
+Volatilidad Actual: 32.33
+Valor Actual: 862.75
+----------------Average de Default entre 4 y 12
+Stocks: ['VIS.MC', 'AENA.MC', 'SGRE.MC', 'ITX.MC', 'FDR.MC', 'ROVI.MC', 'IBE.MC', 'PHM.MC', 'NTGY.MC', 'BKT.MC', 'IDR.MC', 'MEL.MC']
+Volatilidad input: 81.51
+Valor input: 1119.98
+Volatilidad Actual: 40.32
+Valor Actual: 1043.54
+----------------Average de Course entre 4 y 12
+Stocks: ['VIS.MC', 'ENG.MC', 'CLNX.MC', 'MAP.MC', 'CABK.MC', 'ROVI.MC', 'ANA.MC', 'ALM.MC', 'NTGY.MC', 'MTS.MC', 'COL.MC', 'AENA.MC']
+Volatilidad input: 90.02
+Valor input: 1111.15
+Volatilidad Actual: 39.93
+Valor Actual: 1168.47
+----------------Average de CourseValue entre 4 y 12
+Stocks: ['VIS.MC', 'TEF.MC', 'SGRE.MC', 'ACS.MC', 'SAB.MC', 'IDR.MC', 'ELE.MC', 'PHM.MC', 'NTGY.MC', 'CIE.MC', 'COL.MC', 'AENA.MC']
+Volatilidad input: 47.75
+Valor input: 1046.27
+Volatilidad Actual: 24.69
+Valor Actual: 1112.07
+----------------Average de Default Graph entre 4 y 12
+Stocks: ['VIS.MC', 'TEF.MC', 'AENA.MC', 'CIE.MC', 'CABK.MC', 'ELE.MC', 'GRF.MC', 'ANA.MC', 'NTGY.MC', 'ALM.MC', 'MRL.MC', 'ITX.MC']
+Volatilidad input: 64.69
+Valor input: 1048.93
+Volatilidad Actual: 23.76
+Valor Actual: 1115.71
+----------------Average de Course Graph entre 4 y 12
+Stocks: ['VIS.MC', 'TEF.MC', 'AENA.MC', 'SAN.MC', 'SAB.MC', 'COL.MC', 'ACS.MC', 'ANA.MC', 'NTGY.MC', 'ENG.MC', 'MRL.MC', 'ELE.MC']
+Volatilidad input: 73.32
+Valor input: 1053.36
+Volatilidad Actual: 32.41
+Valor Actual: 1183.82
+----------------Average de CourseValue Graph entre 4 y 12
+Stocks: ['VIS.MC', 'TEF.MC', 'ACS.MC', 'MAP.MC', 'ELE.MC', 'ROVI.MC', 'GRF.MC', 'PHM.MC', 'NTGY.MC', 'ALM.MC', 'IDR.MC', 'IBE.MC']
+Volatilidad input: 61.83
+Valor input: 1048.99
+Volatilidad Actual: 23.75
+Valor Actual: 1086.1
+Tiempo: 905.3234083652496s

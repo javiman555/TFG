@@ -2,6 +2,7 @@ import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
 import src.model.objects.k_means.K_Means as K_Means
+import matplotlib.cm as cm
 
 
 class Graph(nx.Graph):
@@ -59,17 +60,33 @@ class Graph(nx.Graph):
         for node in betweenness:
             
             if (betweenness[node] == degree):
-                color_map.append('black')
+                color_map.append(cm.gray(1-betweenness[node]/degree))
             elif (betweenness[node] < degree and betweenness[node] >= (degree*0.75)):
-                color_map.append('red')
+                color_map.append(cm.gray(1-betweenness[node]/degree))
             elif (betweenness[node] < degree*0.75 and betweenness[node] >= (degree*0.50)):
-                color_map.append('orange')
+                color_map.append(cm.gray(1-betweenness[node]/degree))
             elif (betweenness[node] < degree*0.50 and betweenness[node] >= (degree*0.25)):
-                color_map.append('yellow')
+                color_map.append(cm.gray(1-betweenness[node]/degree))
             elif (betweenness[node] < degree*0.25 ):
-                color_map.append('#34F907')
+                color_map.append(cm.gray(1-betweenness[node]/degree))
+        #pos = nx.spring_layout(self)
+        #pos = nx.circular_layout(self)
+        pos = nx.spectral_layout(self)
 
-        nx.draw(self, node_color=color_map, with_labels=label)
+        #pos = nx.shell_layout(self)
+        nodes = nx.draw_networkx_nodes(self, pos,node_color=color_map)
+        # Set edge color to red
+        nodes.set_edgecolor("#000000")
+        nx.draw_networkx_edges(self, pos)
+        # Uncomment this if you want your labels
+        #nx.draw_networkx_labels(self, pos)
+        labels = nx.get_edge_attributes(self,'weight')
+        for key,item in labels.items():
+            labels[key]=int(item)
+        #nx.draw_networkx_edge_labels(self,pos,edge_labels=labels)
+        
+        #nx.draw(self, node_color=color_map, with_labels=label,edge_color="#000000")
+        #nx.draw(self, node_color=color_map)
         plt.show()
               
     def drawGraphByDegreeFancy(self,label=False):
@@ -131,11 +148,11 @@ class Graph(nx.Graph):
             elif (betweenness[node] < degree*0.25 ):
                 Gaux5.add_node(node)
         
-        nx.draw_networkx_nodes(self, pos,Gaux5,node_color="#34F907",node_size=5000/len(self.nodes()),label=True)
-        nx.draw_networkx_nodes(self, pos,Gaux4,node_color="yellow",node_size=10000/len(self.nodes()),label=True)
-        nx.draw_networkx_nodes(self, pos,Gaux3,node_color="orange",node_size=15000/len(self.nodes()),label=True)
-        nx.draw_networkx_nodes(self, pos,Gaux2,node_color="red",node_size=20000/len(self.nodes()),label=True)
-        nx.draw_networkx_nodes(self, pos,Gaux1,node_color="black",node_size=25000/len(self.nodes()),label=True)
+        nx.draw_networkx_nodes(self, pos,Gaux5,node_color="black",node_size=5000/len(self.nodes()),alpha=0.1,label=True)
+        nx.draw_networkx_nodes(self, pos,Gaux4,node_color="black",node_size=10000/len(self.nodes()),alpha=0.25,label=True)
+        nx.draw_networkx_nodes(self, pos,Gaux3,node_color="black",node_size=15000/len(self.nodes()),alpha=0.5,label=True)
+        nx.draw_networkx_nodes(self, pos,Gaux2,node_color="black",node_size=20000/len(self.nodes()),alpha=0.75,label=True)
+        nx.draw_networkx_nodes(self, pos,Gaux1,node_color="black",node_size=25000/len(self.nodes()),alpha=1,label=True)
 
         nx.draw_networkx_edges(self, pos,width=min(1,100/max(len(self.edges()),1)),label='weight')
         plt.show()

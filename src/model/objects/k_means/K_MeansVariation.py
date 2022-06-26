@@ -32,7 +32,7 @@ class K_MeansVariation(K_Means):
     
     def changeWaveToCourseValue(self,wave):
         course =copy.deepcopy(wave)
-        for i in range(len(wave.y)-1):
+        for i in range(len(wave.y)):
             if i == len(wave.y)-1:
                 course.y[i]=0
             else:
@@ -41,7 +41,7 @@ class K_MeansVariation(K_Means):
     
     def changeWaveToCourse(self,wave):
         course =copy.deepcopy(wave)
-        for i in range(len(wave.y)-1):
+        for i in range(len(wave.y)):
             if i == len(wave.y)-1:
                 course.y[i]=0.5
             elif wave.y[i] > wave.y[i+1]:

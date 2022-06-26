@@ -19,6 +19,10 @@ class Wavelete:
         for i in range(len(complexWave.date)):
             if i%2 == 0:
                 output.date.append(complexWave.date[i])
+        
+        realMagnitude = output.magnitude
+        output.normalice()
+        output.magnitude = realMagnitude
         return output
     
     def simplificationComplexWaveList(self,complexWaveList):

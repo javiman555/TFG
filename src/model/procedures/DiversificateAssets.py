@@ -92,7 +92,7 @@ class DiversificateAssets:
         #If prices are randomly sampled from a normal distribution,
         #then about 68% of all data values will fall within one standard deviation
         # 95% in 2*standarDeviation
-        standarDeviation = np.sqrt(variance)
+        standarDeviation = np.sqrt(variance)*(256/len(data))
         return standarDeviation
     
     

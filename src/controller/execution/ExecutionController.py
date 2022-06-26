@@ -18,33 +18,42 @@ class ExecutionController:
         yf1.saveStocksStartEnd('2000-01-01',TODAY_DATE,'1d',True,'DataStocks.csv')
         
     
-    def executeFast(self,tickerList,dateStart,dateEnd,money):
+    def executeFast(self,tickerList,dateStart,dateEnd,money,k):
         
         inputWaves = self.proccess.createWave(dateStart,dateEnd,tickerList,debug=False)
         
         realwaves = self.proccess.createWave(dateStart,TODAY_DATE,tickerList,debug=False)
         
         simplifiedInputWaves = self.wavelete.simplificationComplexWaveList(inputWaves)
-        simplifiedInputWaves = self.wavelete.simplificationComplexWaveList(simplifiedInputWaves)
-        simplifiedInputWaves = self.wavelete.simplificationComplexWaveList(simplifiedInputWaves)
+        #simplifiedInputWaves = self.wavelete.simplificationComplexWaveList(simplifiedInputWaves)
+        #simplifiedInputWaves = self.wavelete.simplificationComplexWaveList(simplifiedInputWaves)
 
-        return self.proccess.executeStandar(simplifiedInputWaves,realwaves,money)
+        return self.proccess.executeStandar(simplifiedInputWaves,realwaves,money,k)
     
-    def executeStandar(self,tickerList,dateStart,dateEnd,money):
+    def executeStandar(self,tickerList,dateStart,dateEnd,money,k):
         inputWaves = self.proccess.createWave(dateStart,dateEnd,tickerList,debug=False)
         
         realwaves = self.proccess.createWave(dateStart,TODAY_DATE,tickerList,debug=False)
         
-        return self.proccess.executeStandar(inputWaves,realwaves,money)
+        return self.proccess.executeStandar(inputWaves,realwaves,money,k)
     
-    def executeSlow(self,tickerList,dateStart,dateEnd,money):
+    def executeSlow(self,tickerList,dateStart,dateEnd,money,k):
         inputWaves = self.proccess.createWave(dateStart,dateEnd,tickerList,debug=False)
                 
         waves = self.proccess.createWaveGraph(dateStart,dateEnd,tickerList,debug=False)
         
         realwaves = self.proccess.createWave(dateStart,TODAY_DATE,tickerList,debug=False)
         
-        return self.proccess.executeFull(inputWaves,waves,realwaves,money)
+        return self.proccess.executeFull(inputWaves,waves,realwaves,money,k)
+        
+    def executeBest(self,tickerList,dateStart,dateEnd,money,k):
+        inputWaves = self.proccess.createWave(dateStart,dateEnd,tickerList,debug=False)
+                
+        waves = self.proccess.createWaveGraph(dateStart,dateEnd,tickerList,debug=False)
+        
+        realwaves = self.proccess.createWave(dateStart,TODAY_DATE,tickerList,debug=False)
+        
+        return self.proccess.executeBest(inputWaves,waves,realwaves,money,k)
         
         
     

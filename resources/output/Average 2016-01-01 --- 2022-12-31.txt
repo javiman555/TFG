@@ -1,0 +1,7 @@
+----------------Average de CourseValue Graph entre 4 y 4
+Stocks: ['MRL.MC', 'ELE.MC', 'REE.MC', 'NTGY.MC']
+Volatilidad input: 13.45
+Valor input: 1167.85
+Volatilidad Actual: 13.45
+Valor Actual: 1167.85
+Tiempo: 33532.86470079422s

@@ -67,7 +67,10 @@ class K_Means:
             centroids[classification]=[] 
             for i in range(len(boxes[classification])):
                 centroids[classification].append(boxes[classification][i].y)
-                    
+            
+            if not centroids[classification]:
+                #Error empty centroid
+                centroids[classification] = [[0]*len(previousCentroids[0])]
             centroids[classification] = np.average(centroids[classification], axis = 0)
 
 

@@ -32,7 +32,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         
     def updateStocks(self):
         try:
-            self.executionController.saveStoks()
+            print('outdated for stats 29/5/2022')
+            #self.executionController.saveStoks()
         except:
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Warning)
@@ -48,14 +49,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         dateEnd = self.inputController.getDate(self.dateEdit_endDate)
         tickerList = self.inputController.getStockNamesFromListWidget(self.listWidget_stock)
         money = self.inputController.getMoney(self.plainTextEdit_money)
+        k = self.inputController.getNumberStocks(self.plainTextEdit_k)
         
         #Chose execution
         if self.radioButton_fast.isChecked():
-            result = self.executionController.executeFast(tickerList,dateStart,dateEnd,money)
+            [resultA,result] = self.executionController.executeFast(tickerList,dateStart,dateEnd,money,k)
         elif self.radioButton_standar.isChecked():
-            result = self.executionController.executeStandar(tickerList,dateStart,dateEnd,money)
+            [resultA,result] = self.executionController.executeStandar(tickerList,dateStart,dateEnd,money,k)
         elif self.radioButton_slow.isChecked():
-            result = self.executionController.executeSlow(tickerList,dateStart,dateEnd,money)
+            [resultA,result] = self.executionController.executeSlow(tickerList,dateStart,dateEnd,money,k)
         
         #Recover the results
         plot = self.plotController.getPlot(result,dateEnd)

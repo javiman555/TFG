@@ -6,21 +6,27 @@ import src.model.objects.k_means.K_MeansVariation as K_MeansVariation
 
 class WavePrecision:
     
-    def __init__(self, realWaveList):
+    def __init__(self, realWaveList,flag=1):
         self.realWaveList = realWaveList
-        self.realGraph = self.initializeData(realWaveList)
+        self.realGraph = self.initializeData(realWaveList,flag)
     
     #Gives a graph with kmeans loop data
-    def initializeData(self,listWave):
+    def initializeData(self,listWave,flag):
         kmeans = K_MeansVariation.K_MeansVariation(0)
         closenessGraph = cg.ClosenessGraph()
-        closenessGraph.distanceCloseness(listWave,kmeans.fitDefault,kmeans)
+        if flag == 1:
+            closenessGraph.distanceCloseness(listWave,kmeans.fitDefault,kmeans)
+        elif flag ==2:
+            closenessGraph.distanceCloseness(listWave,kmeans.fitByCourse,kmeans)
+        elif flag ==3:
+            closenessGraph.distanceCloseness(listWave,kmeans.fitByCourseValue,kmeans)
+
         return closenessGraph
     
     #Gives how similar the aproxGraph is to the realGraph
-    def compareData(self,aproxWaveList):
+    def compareData(self,aproxWaveList,flag=1):
         
-        aproxGraph = self.initializeData(aproxWaveList)
+        aproxGraph = self.initializeData(aproxWaveList,flag)
         #Calibrate weight to go back to k-means coincidence
         self.realGraph.calibrateWeightMax()
         aproxGraph.calibrateWeightMax()
@@ -43,9 +49,9 @@ class WavePrecision:
             realEdgesWeight.append(realWeight['weight'])
             aproxWeight = aproxGraph.get_edge_data(edge[0],edge[1], default={'weight':0})
             aproxEdgesWeight.append(aproxWeight['weight'])
-            total = total + 2*abs(realWeight['weight'])
+            total = total + abs(realWeight['weight'])
             #total = total + self.realGraph.maxCloseness
-            error = error + abs(realWeight['weight']-aproxWeight['weight'])
+            error = error + 1/2*abs(realWeight['weight']-aproxWeight['weight'])
         
         percentage = (1 - error/total)*100
         #RecalibrateWeightMax to go back to the pseudo distance

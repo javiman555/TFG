@@ -63,7 +63,8 @@ class ValueResults:
         km1 = km.K_MeansVariation(4)
         wavesBetweenness = km1.changeGraphToWave(graphs)
         orderedWavesBetweenness = km1.order(wavesBetweenness)
-        return orderedWavesBetweenness
+        #return orderedWavesBetweenness
+        return wavesBetweenness
 
     def valueProcess(self,k,waves,inputWaves,realwaves,money,flag=0):
         
@@ -106,12 +107,14 @@ class ValueResults:
             for wave in inputWaves:
                 if wave.dataName == selectedStocksWaves[i].dataName:
                     imputSelectedStocksWaves.append(wave)
+                    aproxWave.components.append(wave.dataName)
                     continue
         realSelectedStocksWaves = []
         for i in range(len(selectedStocksWaves)):
             for wave in realwaves:
                 if wave.dataName == selectedStocksWaves[i].dataName:
                     realSelectedStocksWaves.append(wave)
+                    realWave.components.append(wave.dataName)
                     continue    
                 
         valueListInp =cG.calculateDiversificatedGains(imputSelectedStocksWaves, money)
@@ -123,9 +126,11 @@ class ValueResults:
         aproxWave.date = inputWaves[0].date
         realWave.date = realwaves[0].date
 
-
+        print(aproxWave.components)
         print(dA.getVolatilityStandarDeviationProcess(valueListInp))
+        print(valueListInp[len(valueListInp)-1])
         print(dA.getVolatilityStandarDeviationProcess(valueListReal))
+        print(valueListReal[len(valueListReal)-1])
         #return [valueListInp,valueListReal]
         return [aproxWave,realWave]
 
@@ -137,8 +142,10 @@ class ValueResults:
         print('-----Distribución homogenea-----')
         equalDistributionAprox = cG.calculateDiversificatedGains(inputWaves, money)
         print(dA.getVolatilityStandarDeviationProcess(equalDistributionAprox))
+        print(equalDistributionAprox[len(equalDistributionAprox)-1])
         equalDistributionReal = cG.calculateDiversificatedGains(realwaves, money)
         print(dA.getVolatilityStandarDeviationProcess(equalDistributionReal))
+        print(equalDistributionReal[len(equalDistributionReal)-1])
         
         equalDistributionAproxWave = cw.ComplexWave()
         equalDistributionRealWave = cw.ComplexWave()
@@ -159,7 +166,14 @@ class ValueResults:
         print('-----Random Pick of '+str(k)+' waves-----')
         randomWaves = rd.sample(inputWaves, k)
         randomAprox = cG.calculateDiversificatedGains(randomWaves, money)
+        names =[]
+        for wave in randomWaves:
+            names.append(wave.dataName)
+            
+        print(names)
         print(dA.getVolatilityStandarDeviationProcess(randomAprox))
+        print(randomAprox[len(randomAprox)-1])
+
         randomWavesP = []
         for realwave in realwaves:
             for wave in randomWaves:
@@ -167,6 +181,7 @@ class ValueResults:
                     randomWavesP.append(realwave)
         randomReal = cG.calculateDiversificatedGains(randomWavesP, money)
         print(dA.getVolatilityStandarDeviationProcess(randomReal))
+        print(randomReal[len(randomReal)-1])
         randomAproxWave = cw.ComplexWave()
         randomRealWave = cw.ComplexWave()
         randomAproxWave.y = randomAprox
@@ -177,15 +192,17 @@ class ValueResults:
         randomRealWave.dataName = "randomReal"
         return [randomAproxWave,randomRealWave]
         
-    def executeStandar(self,inputWaves,realwaves,money):
+    def executeStandar(self,inputWaves,realwaves,money,k):
         
-        k= len(realwaves)//3
         result =[]
+        resultA =[]
         [aprox,real] = self.equalDistribution(inputWaves,realwaves,money)
         result.append(real)
+        resultA.append(aprox)
 
         [aprox,real] = self.randomDistribution(k,inputWaves,realwaves,money)
         result.append(real)
+        resultA.append(aprox)
         
         print('-----Least Volatile-----')
         [valueListLV,valueListLVP] = self.valueProcess(1,inputWaves,inputWaves,realwaves,money,0)        
@@ -193,6 +210,7 @@ class ValueResults:
         valueListLVP.dataName = "LeastVolatileReal"
         
         result.append(valueListLVP)
+        resultA.append(valueListLV)
         
         print('-----------------Normal Wave-------------------')
         
@@ -208,17 +226,22 @@ class ValueResults:
         result.append(valueListGDP)
         result.append(valueListCP)
         result.append(valueListCVP)
-        return result
+        resultA.append(valueListGD)
+        resultA.append(valueListC)
+        resultA.append(valueListCV)
+        return [resultA,result]
     
-    def executeFull(self,inputWaves,waves,realwaves,money):
+    def executeFull(self,inputWaves,waves,realwaves,money,k):
         
-        k= len(realwaves)//3
         result =[]
+        resultA =[]
         [aprox,real] = self.equalDistribution(inputWaves,realwaves,money)
         result.append(real)
+        resultA.append(aprox)
 
         [aprox,real] = self.randomDistribution(k,inputWaves,realwaves,money)
         result.append(real)
+        resultA.append(aprox)
         
         print('-----Least Volatile-----')
         [valueListLV,valueListLVP] = self.valueProcess(1,inputWaves,inputWaves,realwaves,money,0)        
@@ -226,6 +249,7 @@ class ValueResults:
         valueListLVP.dataName = "LeastVolatileReal"
         
         result.append(valueListLVP)
+        resultA.append(valueListLV)
         
         print('-----------------Normal Wave-------------------')
         
@@ -241,6 +265,9 @@ class ValueResults:
         result.append(valueListGDP)
         result.append(valueListCP)
         result.append(valueListCVP)
+        resultA.append(valueListGD)
+        resultA.append(valueListC)
+        resultA.append(valueListCV)
 
         print('-----------------Visibility Graph-------------------')
         
@@ -256,8 +283,20 @@ class ValueResults:
         result.append(valueListGGDP)
         result.append(valueListGCP)
         result.append(valueListGCVP)
-        return result
+        resultA.append(valueListGGD)
+        resultA.append(valueListGC)
+        resultA.append(valueListGCV)
+        return [resultA,result]
     
+    def executeBest(self,inputWaves,waves,realwaves,money,k):
+        result =[]
+        resultA =[]
+        print('-----CourseValue '+str(k)+'-----')
+        [valueListGCV,valueListGCVP] = self.valueProcess(k,waves,inputWaves,realwaves,money,5)
+        result.append(valueListGCVP)
+        resultA.append(valueListGCV)
+        return [resultA,result]
+        
     def draw(self,valueListRD,valueListDH,valueListLV,valueListGD,valueListC,valueListCV):
         plt.figure(figsize = (8, 6))
         plt.title('Valor')

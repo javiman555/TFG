@@ -7,7 +7,7 @@ import src.model.procedures.ValueResults as ValueResults
 
 class InputController:
     def __init__(self):
-        self.API =yf.YahooFinanceAPI(debug=True) 
+        self.API =yf.YahooFinanceAPI(debug=False) 
     
     def getStockNamesFromSource(self,source):
         return self.API.stocks
@@ -29,5 +29,13 @@ class InputController:
             print("Only integers are allowed, using default value 1000")
             money = 1000
         return money
+    
+    def getNumberStocks(self,plainTextEdit):
+        try:
+            k = int(plainTextEdit.toPlainText())
+        except TypeError:
+            print("Only integers are allowed, using default value 4")
+            k = 4
+        return k
     
             

@@ -1,0 +1,53 @@
+\contentsline {section}{\numberline {1}Resumen}{3}{section.1}%
+\contentsline {section}{\numberline {2}Objetivos}{4}{section.2}%
+\contentsline {section}{\numberline {3}Fundamentos Teóricos}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Ondas Temporales}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Teoría de Grafos}{6}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Centralidad}{7}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Distancias}{7}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Volatilidad}{8}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Complejidad Computacional }{8}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}Algoritmos}{9}{subsection.3.7}%
+\contentsline {section}{\numberline {4}Herramientas}{13}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Anaconda}{13}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Spyder}{13}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Extensiones Integradas en Spyder}{13}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Qt Designer}{14}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Trello}{14}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Github}{14}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}Programa Para Diagramas UML}{15}{subsection.4.7}%
+\contentsline {subsection}{\numberline {4.8}LaTex}{15}{subsection.4.8}%
+\contentsline {section}{\numberline {5}Proceso}{16}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Input}{16}{subsection.5.1}%
+\contentsline {subsubsection}{\numberline {5.1.1}Formato}{16}{subsubsection.5.1.1}%
+\contentsline {subsubsection}{\numberline {5.1.2}Fourier}{17}{subsubsection.5.1.2}%
+\contentsline {subsubsection}{\numberline {5.1.3}Wavelet}{18}{subsubsection.5.1.3}%
+\contentsline {subsubsection}{\numberline {5.1.4}Grafo de Visibilidad}{19}{subsubsection.5.1.4}%
+\contentsline {subsection}{\numberline {5.2}Clusterización / K-means}{20}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Razón de uso}{20}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}Customización}{21}{subsubsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.3}K-means cíclico}{23}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Motivación}{24}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Cambios}{24}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}Dificultades}{26}{subsubsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.4}K-means sobre grafos}{26}{subsection.5.4}%
+\contentsline {subsubsection}{\numberline {5.4.1}Motivación}{26}{subsubsection.5.4.1}%
+\contentsline {subsubsection}{\numberline {5.4.2}Cambios}{27}{subsubsection.5.4.2}%
+\contentsline {subsubsection}{\numberline {5.4.3}Dificultades / Limitaciones}{30}{subsubsection.5.4.3}%
+\contentsline {subsection}{\numberline {5.5}K-means con grafos como entrada}{32}{subsection.5.5}%
+\contentsline {subsubsection}{\numberline {5.5.1}Motivación}{32}{subsubsection.5.5.1}%
+\contentsline {subsubsection}{\numberline {5.5.2}Centralidad}{32}{subsubsection.5.5.2}%
+\contentsline {subsubsection}{\numberline {5.5.3}Dificultades / Limitaciones}{33}{subsubsection.5.5.3}%
+\contentsline {subsection}{\numberline {5.6}Algoritmo completo}{34}{subsection.5.6}%
+\contentsline {section}{\numberline {6}Experimentos / validación}{36}{section.6}%
+\contentsline {subsection}{\numberline {6.1}IBEX-35}{36}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Fourier vs Wavelet}{36}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Resultados}{38}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}Gráfico}{39}{subsubsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.2}Tablas}{42}{subsubsection.6.3.2}%
+\contentsline {section}{\numberline {7}Conclusiones}{47}{section.7}%
+\contentsline {section}{\numberline {8}Bibliografía}{49}{section.8}%
+\contentsline {section}{\numberline {9}Apéndices}{51}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Script Wavelet vs Fourier}{51}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Script Volatilidad}{52}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}Tablas de Promedios}{54}{subsection.9.3}%

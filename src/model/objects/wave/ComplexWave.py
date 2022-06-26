@@ -11,6 +11,7 @@ class ComplexWave:
         self.precision = precision
         self.toGraph = []
         self.dataName = ""
+        self.components=[]
         self.magnitude = 1
     
     def __lt__(self, other):
@@ -38,8 +39,9 @@ class ComplexWave:
         self.drawProcess(y,'k')
         plt.title('Wave: '+self.dataName)
         plt.ylabel('Data - '+self.dataName)
-        plt.xlabel('Time (t) / Frecuencia (?)')
+        plt.xlabel('Time (t)')
         plt.show()
+        
         
     def drawProcess(self,y,color):
         sr = len(y)

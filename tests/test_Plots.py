@@ -1,11 +1,15 @@
 import unittest as utest
 import numpy.testing as ntest
 from src.model.objects.wave import ComplexWaveDB
+from src.model.objects.wave import ComplexWaveRandom
+
 import src.model.objects.graph.VisibilityGraph as vg
 import src.model.objects.k_means.K_MeansVariation as K_MeansVariation
 
 import src.model.modules.YahooFinanceAPI as yf
 import src.model.objects.Stock as sk
+import src.model.modules.Wavelete as Wavelete
+import src.model.modules.Fourier as Fourier
 
 import src.model.objects.k_means.K_Means as K_Means
 import src.model.objects.graph.ClosenessGraph as cg
@@ -13,43 +17,83 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-@utest.SkipTest
+#@utest.SkipTest
 class TestPlots(utest.TestCase):
     
     @classmethod
     def setUpClass(cls):
-        yf1=yf.YahooFinanceAPI(debug=True)
+        yf1=yf.YahooFinanceAPI(debug=False)
         cls.waves =[]
         cls.vgraphs = []
         cls.stocks=[]
-        
         for element in yf1.stocks:
             
-            wave = ComplexWaveDB.ComplexWaveDB(element,'Open','DataStocksTest.csv')
+            wave = ComplexWaveDB.ComplexWaveDB(element,'Open','DataStocks.csv')
+                        
+            stock=sk.Stock(element,'DataStocks.csv',precision=2)
+            cls.stocks.append(stock)
+            
+            #wave.draw(wave.y)
+                
             wave.normalice()
             cls.waves.append(wave)  
-                        
-            stock=sk.Stock(element,precision=2)
-            cls.stocks.append(stock)
             
             vgraph = vg.VisibilityGraph(wave.toGraph,wave.dataName)  # 3700 ms
             cls.vgraphs.append(vgraph)
-            
+    @utest.SkipTest        
+    def test_draw_artificial_wave(self):
+        wave = ComplexWaveRandom.ComplexWaveRandom(2,10,10,10,365)
+        wave.draw(wave.y) 
+    @utest.SkipTest    
     def test_draw_wave(self):
+        wave = self.__class__.waves[1]
+        wave.draw(wave.y)  
         
-        wave = self.__class__.waves[0]
+    @utest.SkipTest     
+    def test_draw_wave_course(self):
+        kmeans = K_MeansVariation.K_MeansVariation(4)
+        wave = self.__class__.waves[1]
+        wave = kmeans.changeWaveToCourse(wave)
         wave.draw(wave.y)
+    @utest.SkipTest   
+    def test_draw_wave_course_value(self):
+        kmeans = K_MeansVariation.K_MeansVariation(4)
+        wave = self.__class__.waves[1]
+        wave = kmeans.changeWaveToCourseValue(wave)
+        wave.draw(wave.y)  
         
+    @utest.SkipTest    
+    def test_draw_wave_fourier(self):
+        fourier = Fourier.Fourier()
+        wave = self.__class__.waves[1]
+        wave = fourier.DFT(wave)
+        wave.draw(wave.y)
+    @utest.SkipTest    
+    def test_draw_wave_wavelete(self):
+        wavelet = Wavelete.Wavelete()
+        
+        wave = self.__class__.waves[1]
+        wave = wavelet.simplificationComplexWave(wave)
+        wave.draw(wave.y)
+        wave = wavelet.simplificationComplexWave(wave)
+        wave.draw(wave.y)
+        wave = wavelet.simplificationComplexWave(wave)
+        wave.draw(wave.y)
+        wave = wavelet.simplificationComplexWave(wave)
+        wave.draw(wave.y)
+
+    #@utest.SkipTest    
     def test_draw_VisibilityGraph(self):
         
-        vgraph = self.__class__.vgraphs[0]
+        vgraph = self.__class__.vgraphs[1]
         plt.title('Visibility Graph of Wave: '+vgraph.dataName+' by Degree')
         vgraph.drawGraphByDegreeFancy()
-        plt.title('Representation in Wave of Visibility Graph: '+vgraph.dataName+' by Degree')
-        vgraph.drawVisibilityByDegree()
-        plt.title('Visibility Graph of Wave: '+vgraph.dataName+' by Degree')
+        plt.title('Representation of Visibility Graph: '+vgraph.dataName+' by Betweenness')
+        vgraph.drawVisibilityByBetweenness()
+        plt.figure(figsize=(4,3))
+        plt.title('Visibility Graph: '+vgraph.dataName+' Betweenness')
         vgraph.drawGraphByBetweennessFancy()
-
+    @utest.SkipTest
     def test_draw_kmeans_boxes(self):
         
         waves = self.__class__.waves
@@ -64,22 +108,34 @@ class TestPlots(utest.TestCase):
         kmeans.paintAll(2,2)
         kmeans.fitByCourseValue(waves)
         plt.figure(figsize=(16,12))
-        plt.suptitle('Kmeans generic course value',fontsize=20)
+        plt.suptitle('RxR representation',fontsize=20)
+        plt.scatter([.9],[.2],color="black",zorder=10)
+        plt.ylim([0,1])
+        plt.xlim([0,1])
+        plt.show
         kmeans.paintAll(2,2)
-        
+    @utest.SkipTest    
     def test_draw_ClosenessGraph(self):
-        
-        kmeans = K_MeansVariation.K_MeansVariation(0)
+        n=12
+        plt.figure(figsize=(n,n)) 
+        kmeans = K_MeansVariation.K_MeansVariation(1)
         cgraph = cg.ClosenessGraph()
-        plt.title('ClosenessGraph by generic distance with kmeans')
+        plt.title('Graph by cyclic K-means')
         cgraph.distanceCloseness(self.__class__.waves,kmeans.fitDefault,kmeans)
         cgraph.drawGraphByBetweenness()
+        plt.figure(figsize=(n,n)) 
+        plt.title('Graph by cyclic K-means (not inverted)')
+        cgraph.calibrateWeightMax()
+        cgraph.drawGraphByBetweenness()
+        plt.figure(figsize=(n,n)) 
         plt.title('ClosenessGraph by course with kmeans')
         cgraph.distanceCloseness(self.__class__.waves,kmeans.fitByCourse,kmeans)
         cgraph.drawGraphByBetweenness()
+        plt.figure(figsize=(n,n)) 
         plt.title('ClosenessGraph by course value with kmeans')
         cgraph.distanceCloseness(self.__class__.waves,kmeans.fitByCourseValue,kmeans)
         cgraph.drawGraphByBetweenness()
+        plt.figure(figsize=(n,n)) 
         plt.title('ClosenessGraph by generic distance without kmeans')
         cgraph.genericDistance(self.__class__.waves)
         cgraph.drawGraphByDegree()
@@ -90,10 +146,10 @@ class TestPlots(utest.TestCase):
         plt.title('ClosenessGraph by course pseudodistance without kmeans')
         cgraph.genericDistance(listCourseWave)
         cgraph.drawGraphByDegree()
-        
+    @utest.SkipTest    
     def test_draw_stock_high_low(self):
         
-        stock = self.__class__.stocks[0]
+        stock = self.__class__.stocks[1]
         high =stock.high.y
         low =stock.low.y
         
