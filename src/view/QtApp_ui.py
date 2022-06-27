@@ -105,6 +105,12 @@ class Ui_MainWindow(object):
         self.label_k = QtWidgets.QLabel(self.centralwidget)
         self.label_k.setGeometry(QtCore.QRect(20, 530, 91, 41))
         self.label_k.setObjectName("label_k")
+        self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
+        self.textBrowser.setGeometry(QtCore.QRect(460, 510, 511, 61))
+        self.textBrowser.setObjectName("textBrowser")
+        self.resultText = QtWidgets.QTextBrowser(self.centralwidget)
+        self.resultText.setGeometry(QtCore.QRect(460, 570, 511, 41))
+        self.resultText.setObjectName("resultText")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1103, 26))
@@ -135,6 +141,17 @@ class Ui_MainWindow(object):
         self.label_stock.setText(_translate("MainWindow", "Select Stocks from source"))
         self.plainTextEdit_k.setPlainText(_translate("MainWindow", "4"))
         self.label_k.setText(_translate("MainWindow", "Stocks to select"))
+        self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Here we\'ll show the recommended stocks to invest in.</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Be patient as the process may take a while.</span></p></body></html>"))
+        self.resultText.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">...</span></p></body></html>"))
 from PyQt5 import QtWebEngineWidgets
 
 

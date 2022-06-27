@@ -8,6 +8,7 @@ from pyqtgraph import PlotWidget, plot
 from src.controller.plot import PlotController
 from src.controller.input import InputController
 from src.controller.execution import ExecutionController
+from src.controller.result import ResultController
 from PyQt5.QtWidgets import QMessageBox
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -16,6 +17,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     inputController = InputController.InputController()
     executionController = ExecutionController.ExecutionController()
     plotController = PlotController.PlotController()
+    resultController = ResultController.ResultController()
 
     def __init__(self, *args, **kwargs):
         
@@ -61,6 +63,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         
         #Recover the results
         plot = self.plotController.getPlot(result,dateEnd)
+        recomendation=self.resultController.getRecomendation(resultA[3:])
+        self.resultText.setText(recomendation)
         self.chartView.setHtml(plot.getvalue())
         
 if __name__ == "__main__":
