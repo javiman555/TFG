@@ -10,6 +10,9 @@ from src.controller.input import InputController
 from src.controller.execution import ExecutionController
 from src.controller.result import ResultController
 from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtGui import QIcon
+from config.definitions import ROOT_DIR
+import os
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     
@@ -30,8 +33,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.listWidget_stock.selectAll()
         # Conectamos los eventos con sus acciones
         self.startButton.clicked.connect(self.execute)
+        
+        self.setIcon()
+        self.setWindowTitle("Recomendation Interface")
+        
         self.updateStocks()
         
+    
+    def setIcon(self):
+        source = os.path.join(ROOT_DIR, 'resources', 'App.ico')
+        appIcon = QIcon(source)
+        self.setWindowIcon(appIcon)
+    
     def updateStocks(self):
         try:
             print('outdated for stats 29/5/2022')
