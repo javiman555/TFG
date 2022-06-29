@@ -41,7 +41,7 @@ class TestWavePrecision(utest.TestCase):
             aproxWaveList.append(aproxWave)
             
         precision = wavePrecision.compareData(aproxWaveList)
-        self.assertAlmostEqual(precision, 97.44, 2)
+        self.assertAlmostEqual(precision, 93.897, 2)
         
     def test_compare_wave_2_wavelete(self):
         realWaveList = self.__class__.waves
@@ -55,7 +55,7 @@ class TestWavePrecision(utest.TestCase):
             aproxWaveList.append(aproxWave)
             
         precision = wavePrecision.compareData(aproxWaveList)
-        self.assertAlmostEqual(precision, 96.65, 2)
+        self.assertAlmostEqual(precision, 91.535, 2)
 
     def test_compare_wave_3_wavelete(self):
         realWaveList = self.__class__.waves
@@ -70,7 +70,7 @@ class TestWavePrecision(utest.TestCase):
             aproxWaveList.append(aproxWave)
             
         precision = wavePrecision.compareData(aproxWaveList)
-        self.assertAlmostEqual(precision, 93.11, 2)
+        self.assertAlmostEqual(precision, 87.795, 2)
 
     def test_compare_wave_4_wavelete(self):
         realWaveList = self.__class__.waves
@@ -86,7 +86,7 @@ class TestWavePrecision(utest.TestCase):
             aproxWaveList.append(aproxWave)
             
         precision = wavePrecision.compareData(aproxWaveList)
-        self.assertAlmostEqual(precision, 87.40, 2)
+        self.assertAlmostEqual(precision, 70.669, 2)
 
     def test_compare_wave_fourier(self):
         realWaveList = self.__class__.waves

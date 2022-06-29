@@ -49,7 +49,7 @@ class TestGraph(utest.TestCase):
     def test_get_visibility_graph_form_SAB_MC(self):
         wave=self.__class__.waves[0]
         visibilityGraph = vg.VisibilityGraph(wave.toGraph,wave.dataName)  # 3700 ms
-        self.assertEqual(visibilityGraph.dataName, 'SAB.MC (Open)')
+        self.assertEqual(visibilityGraph.dataName, 'SAB.MC')
         self.assertEqual(len(visibilityGraph.edges), 1558)
         self.assertEqual(len(visibilityGraph.nodes), 258)
         

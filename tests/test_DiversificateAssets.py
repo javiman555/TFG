@@ -35,14 +35,14 @@ class TestDiversificateAssets(utest.TestCase):
         selectedStocks = da4.getStocksKmeans(4)
         
         self.assertEqual(len(da4.clusters), 4)
-        self.assertEqual(len(da4.clusters[0]), 5)
-        self.assertEqual(len(da4.clusters[1]), 2)
+        self.assertEqual(len(da4.clusters[0]), 3)
+        self.assertEqual(len(da4.clusters[1]), 5)
         
         self.assertEqual(len(selectedStocks), 4)
-        self.assertEqual(selectedStocks[0].dataName, 'CABK.MC (Open)') 
-        self.assertEqual(selectedStocks[1].dataName, 'SAN.MC (Open)') 
-        self.assertEqual(selectedStocks[2].dataName, 'ENG.MC (Open)') 
-        self.assertEqual(selectedStocks[3].dataName, 'ELE.MC (Open)')
+        self.assertEqual(selectedStocks[0].dataName, 'ENG.MC') 
+        self.assertEqual(selectedStocks[1].dataName, 'SAN.MC') 
+        self.assertEqual(selectedStocks[2].dataName, 'CABK.MC') 
+        self.assertEqual(selectedStocks[3].dataName, 'REE.MC')
        
     def test_get_DiversificateAssets_clusters_GN_4(self):
         
@@ -54,10 +54,10 @@ class TestDiversificateAssets(utest.TestCase):
         self.assertEqual(len(da4.clusters[1]), 7)
         
         self.assertEqual(len(selectedStocks), 4)
-        self.assertEqual(selectedStocks[0].dataName, 'CABK.MC (Open)') 
-        self.assertEqual(selectedStocks[1].dataName, 'ENG.MC (Open)') 
-        self.assertEqual(selectedStocks[2].dataName, 'GRF.MC (Open)') 
-        self.assertEqual(selectedStocks[3].dataName, 'CLNX.MC (Open)') 
+        self.assertEqual(selectedStocks[0].dataName, 'CABK.MC') 
+        self.assertEqual(selectedStocks[1].dataName, 'ENG.MC') 
+        self.assertEqual(selectedStocks[2].dataName, 'GRF.MC') 
+        self.assertEqual(selectedStocks[3].dataName, 'CLNX.MC') 
 
         
 

@@ -72,9 +72,9 @@ class TestCalculateGains(utest.TestCase):
         selectedStocksWaves = self.__class__.diversificateAssets.getStocksGirvanNewman(4)
         valueList = self.__class__.calculateGains.calculateDiversificatedGains( selectedStocksWaves, 1000)
         
-        self.assertEqual(min(valueList), 792.4929773113201)
-        self.assertEqual(max(valueList), 1032.414480577802)
-        self.assertEqual(sum(valueList) / len(valueList), 937.8362644492615) 
+        self.assertEqual(min(valueList), 840.5533607148506)
+        self.assertEqual(max(valueList), 1015.3496848609175)
+        self.assertEqual(sum(valueList) / len(valueList), 955.9712631781456) 
 
     def test_CalculateGains_Kmeans_GenericDistance_4_Clusters(self):
         
@@ -82,9 +82,9 @@ class TestCalculateGains(utest.TestCase):
         selectedStocksWaves = self.__class__.diversificateAssets.getStocksKmeans(4)
         valueList = self.__class__.calculateGains.calculateDiversificatedGains( selectedStocksWaves, 1000)
         
-        self.assertEqual(min(valueList), 946.7642104226525)
-        self.assertEqual(max(valueList), 1130.7555981339021)
-        self.assertEqual(sum(valueList) / len(valueList), 1042.5716482530602) 
+        self.assertEqual(min(valueList), 995.5872161568872)
+        self.assertEqual(max(valueList), 1204.9514027826972)
+        self.assertEqual(sum(valueList) / len(valueList), 1098.425957588624) 
         
     def test_CalculateGains_Kmeans_Course_4_Clusters(self):
         
@@ -92,9 +92,9 @@ class TestCalculateGains(utest.TestCase):
         selectedStocksWaves = self.__class__.diversificateAssets.getStocksKmeans(4)
         valueList = self.__class__.calculateGains.calculateDiversificatedGains( selectedStocksWaves, 1000)
         
-        self.assertEqual(min(valueList), 950.341791342433)
-        self.assertEqual(max(valueList), 1161.3889224441155)
-        self.assertEqual(sum(valueList) / len(valueList), 1042.5873625022875) 
+        self.assertEqual(min(valueList), 952.0767859617446)
+        self.assertEqual(max(valueList), 1107.5214774205947)
+        self.assertEqual(sum(valueList) / len(valueList), 1027.2736178749096) 
         
     def test_CalculateGains_Kmeans_CourseValue_4_Clusters(self):
         
@@ -102,9 +102,9 @@ class TestCalculateGains(utest.TestCase):
         selectedStocksWaves = self.__class__.diversificateAssets.getStocksKmeans(4)
         valueList = self.__class__.calculateGains.calculateDiversificatedGains( selectedStocksWaves, 1000)
         
-        self.assertEqual(min(valueList), 965.1883080500553)
-        self.assertEqual(max(valueList), 1318.571797815959)
-        self.assertEqual(sum(valueList) / len(valueList), 1109.8509593787842) 
+        self.assertEqual(min(valueList), 918.0268822134751)
+        self.assertEqual(max(valueList), 1077.7606546408413)
+        self.assertEqual(sum(valueList) / len(valueList), 1025.9289784225482) 
         
 if __name__ == '__main__':
     utest.main()

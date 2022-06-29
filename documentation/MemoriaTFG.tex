@@ -4,7 +4,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
-\graphicspath{ {images/} }
+\graphicspath{ {C:/Users/Javier/Documents/GitHub/TFG/documentation/images/} }
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
 \usepackage{hyperref}
@@ -300,6 +300,20 @@ Por lo tanto para llegar a alguna conclusión vamos a necesitar una estrategia p
 			    \end{algorithmic}
 			    \end{algorithm}
 			Para este algoritmo es difícil estudiar su complejidad computacional ya que el camino para llegar a la condición de parada es difícil de definir, por eso mismo se le considera un problema computacionalmente difícil (NP-hard), se han demostrado cotas de su complejidad como $\mathbf{O(n^{34}k^{34}d^8 log^4(n)/\sigma^6) }$ o $\mathbf{O(dn^4M^2)}$ para casos más simples, pero nosotros nos referiremos a su complejidad como $\mathbf{O_{K-means}}$ para poder compárala con la complejidad de las modificaciones al algoritmo\\
+			
+			
+\subsection{Terminos de desarrollo Software}
+{\textbf{Herencia}}\\
+	La Herencia es un concepto software utilizado para facilitar la extension y mantenimiento del software abstrayendo los puntos comunes de varias clases en una clase común. Se dice que estas clases derivan de la clase común.\\
+{\textbf{Requisitos}}\\
+	Los requisitos contienen las expectativas de la parte de negocio hacia el proyecto software. Son las metas hacia las que llevar el desarrollo software para general valor al cliente.\\
+{\textbf{Valor}}\\
+	Se considera como Valor a la ganancia, material o conceptual, que se genera al implementar los requisitos en un proyecto software, este concepto se suele tener en cuenta en la priorización de requisitos.\\
+{\textbf{Tareas}}\\
+	Las tareas son cada uno de los elementos donde se recogen los requisitos para crear valor, es decir, añadir funcionalidad al proyecto. Cada requisito se suele dividir en varias tareas dependiendo del tamaño del mismo.\\
+{\textbf{WIP}}\\
+	WIP representa las siglas de "Work in Progress" y se utiliza para limitar las tareas que están en desarrollo en un instante de tiempo, si tenemos un WIP de 4 no se recomienda que se tengan más de 4 tareas abiertas en cada momento.\\
+	
 \pagebreak
 	\vspace{1cm}
 
@@ -328,8 +342,8 @@ Qt Designer es una herramienta que facilita el diseño de aplicaciones python ap
 Trello es una aplicación con acceso web que permite la administración de proyectos. Se basa en un modelo kanban para poder llevar un seguimiento de las tareas a realizar en el desarrollo de nuestra aplicación.\\
 \subsection{Github}
 Github es un sistema de control de versiones que permite tener el código subido a un repositorio mientras que los cambios se hacen en local. Esto si se hace bien ayuda mucho en el desarrollo del código porque nos permite compartimentar cada parte de la funcionalidad en un commit individual que explique lo que se ha implementado en el mismo. Esto permite tener un buen historial de desarrollo para mejorar la mantenibilidad del código y permite tener versiones de código anteriores en caso de que durante el desarrollo rompamos la versión que tenemos del código en local y no sepamos arreglarlo, en este caso siempre podemos volver a la versión anterior del código para solucionar el problema.\\
-\subsection{Programa Para Diagramas UML}
-Este programa nos permite la creación de diagramas UML (lenguaje unificado de modelado) para poder mostrar una gran cantidad de relaciones distintas, por ejemplo la relación de las clases de nuestro programa, los casos de uso desde el punto de vista de un usuario o el diagrama de flujo que sigue el programa.\\
+\subsection{GitMind}
+Este programa nos permite la creación de diagramas UML (lenguaje unificado de modelado) para poder mostrar una gran cantidad de relaciones distintas, por ejemplo la relación de las clases de nuestro programa, los casos de uso desde el punto de vista de un usuario o el diagrama de flujo que sigue el programa. Este programa tiene el problema de que solo exporta los diagramas de forma fidedigna en formato .svg, asi que para la memoria los transformo en .png, pero se pueden encontrar los diagramas en formato .svg en los apéndices.\\
 \subsection{LaTex}
 Sistema de composición de textos que permite  la creación de documentos en formato estructurado y con eso se facilita el uso de elementos matemáticos y pseudocódigo en la memoria.\\
 \pagebreak

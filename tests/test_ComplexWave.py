@@ -19,12 +19,12 @@ class TestComplexWave(utest.TestCase):
     def test_create_stock_complex_wave(self):
         complexWave = ComplexWaveDB.ComplexWaveDB('SAB.MC','Open','DataStocksTest.csv',precision=1)
         
-        self.assertEqual(complexWave.dataName, "SAB.MC (Open)")
+        self.assertEqual(complexWave.dataName, "SAB.MC")
         self.assertEqual(complexWave.precision, 1)
         self.assertEqual(complexWave.t[0], 0)
         self.assertAlmostEqual(complexWave.y[0], 0.4665)
 
-        complexWaveDuplicated = ComplexWaveDB.ComplexWaveDB('SAB.MC','Open','DataStocksTest.csv',1)
+        complexWaveDuplicated = ComplexWaveDB.ComplexWaveDB('SAB.MC','Open','DataStocksTest.csv',precision=1)
         
         ntest.assert_array_almost_equal(complexWave.t, complexWaveDuplicated.t)
         ntest.assert_array_almost_equal(complexWave.y, complexWaveDuplicated.y)
